@@ -1,11 +1,15 @@
-package com.CashReportSystem.Cash.Report.System.model;
+package com.CashReportSystem.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "time_stamp_table")
 public class TimeStamp {
+
+    @Id
+    private Long id;
     private String checkIn;  //Date
     private String date;
     private String timeTotal;

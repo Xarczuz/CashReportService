@@ -1,4 +1,4 @@
-package com.CashReportSystem.Cash.Report.System.controller;
+package com.CashReportSystem.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

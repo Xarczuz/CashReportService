@@ -1,4 +1,4 @@
-package com.CashReportSystem.Cash.Report.System;
+package com.CashReportSystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

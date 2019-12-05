@@ -1,12 +1,14 @@
-package com.CashReportSystem.Cash.Report.System.model;
+package com.CashReportSystem.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "game_table")
 public class GameTable {
 
+    @Id
     private Long id;
     private String tableName;
     private String location;

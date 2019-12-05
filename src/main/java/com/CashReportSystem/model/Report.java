@@ -1,4 +1,4 @@
-package com.CashReportSystem.Cash.Report.System.model;
+package com.CashReportSystem.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -1,23 +1,25 @@
-package com.CashReportSystem.Cash.Report.System.model;
+package com.CashReportSystem.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "employee_profile_table")
-public class EmployeeProfile {
+@Table(name = "customer_profile_table")
+public class CustomerProfile {
     @Id
     private Long id;
-    private String employeeNr;
-    private String role;
+    private String companyName;
+    private String orgNr;
     private String firstName;
     private String lastName;
+    private String adress;
     private String phonenr;
     private String Email;
 
-    public EmployeeProfile() {
+    public CustomerProfile() {
     }
+
 
     public Long getId() {
         return id;
@@ -27,20 +29,20 @@ public class EmployeeProfile {
         this.id = id;
     }
 
-    public String getEmployeeNr() {
-        return employeeNr;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setEmployeeNr(String employeeNr) {
-        this.employeeNr = employeeNr;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public String getRole() {
-        return role;
+    public String getOrgNr() {
+        return orgNr;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setOrgNr(String orgNr) {
+        this.orgNr = orgNr;
     }
 
     public String getFirstName() {
@@ -57,6 +59,14 @@ public class EmployeeProfile {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
     public String getPhonenr() {
@@ -77,12 +87,13 @@ public class EmployeeProfile {
 
     @Override
     public String toString() {
-        return "EmployeeProfile{" +
+        return "CustomerProfile{" +
                 "id=" + id +
-                ", employeeNr='" + employeeNr + '\'' +
-                ", role='" + role + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", orgNr='" + orgNr + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", adress='" + adress + '\'' +
                 ", phonenr='" + phonenr + '\'' +
                 ", Email='" + Email + '\'' +
                 '}';
