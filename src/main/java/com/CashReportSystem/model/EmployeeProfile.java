@@ -1,19 +1,18 @@
 package com.CashReportSystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "employee_profile_table")
 public class EmployeeProfile {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String employeeNr;
     private String role;
     private String firstName;
     private String lastName;
-    private String phonenr;
+    private String phoneNr;
     private String Email;
 
     public EmployeeProfile() {
@@ -59,12 +58,12 @@ public class EmployeeProfile {
         this.lastName = lastName;
     }
 
-    public String getPhonenr() {
-        return phonenr;
+    public String getPhoneNr() {
+        return phoneNr;
     }
 
-    public void setPhonenr(String phonenr) {
-        this.phonenr = phonenr;
+    public void setPhoneNr(String phoneNr) {
+        this.phoneNr = phoneNr;
     }
 
     public String getEmail() {
@@ -83,7 +82,7 @@ public class EmployeeProfile {
                 ", role='" + role + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", phonenr='" + phonenr + '\'' +
+                ", phoneNr='" + phoneNr + '\'' +
                 ", Email='" + Email + '\'' +
                 '}';
     }

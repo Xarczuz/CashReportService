@@ -1,13 +1,13 @@
 package com.CashReportSystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user_profile_table")
 public class User {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String permission;
     private String username;
@@ -17,7 +17,6 @@ public class User {
 
     public User() {
     }
-
 
     public Long getId() {
         return id;

@@ -1,27 +1,63 @@
 package com.CashReportSystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "report_table")
 public class Report {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String tableName;
+    private String location;
     private String reportNr;
     private String employeeList;
-    private String emplyoeeSign;
+    private String employeeSign;
     private String customerSign;
-    private Double digatlCashFlow;
+    private Double digitalCashFlow;
     private Double cashFlow;
     private Double revenue;
     private Double payment;
     private String infoField;
-    private String staus;
-    //UserId
+    private String status;
 
     public Report() {
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "id=" + id +
+                ", tableName='" + tableName + '\'' +
+                ", location='" + location + '\'' +
+                ", reportNr='" + reportNr + '\'' +
+                ", employeeList='" + employeeList + '\'' +
+                ", employeeSign='" + employeeSign + '\'' +
+                ", customerSign='" + customerSign + '\'' +
+                ", digitalCashFlow=" + digitalCashFlow +
+                ", cashFlow=" + cashFlow +
+                ", revenue=" + revenue +
+                ", payment=" + payment +
+                ", infoField='" + infoField + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
+    public String getLocation() {
+        return location;
+    }
+    //UserId
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Long getId() {
@@ -48,12 +84,12 @@ public class Report {
         this.employeeList = employeeList;
     }
 
-    public String getEmplyoeeSign() {
-        return emplyoeeSign;
+    public String getEmployeeSign() {
+        return employeeSign;
     }
 
-    public void setEmplyoeeSign(String emplyoeeSign) {
-        this.emplyoeeSign = emplyoeeSign;
+    public void setEmployeeSign(String employeeSign) {
+        this.employeeSign = employeeSign;
     }
 
     public String getCustomerSign() {
@@ -64,12 +100,12 @@ public class Report {
         this.customerSign = customerSign;
     }
 
-    public Double getDigatlCashFlow() {
-        return digatlCashFlow;
+    public Double getDigitalCashFlow() {
+        return digitalCashFlow;
     }
 
-    public void setDigatlCashFlow(Double digatlCashFlow) {
-        this.digatlCashFlow = digatlCashFlow;
+    public void setDigitalCashFlow(Double digitalCashFlow) {
+        this.digitalCashFlow = digitalCashFlow;
     }
 
     public Double getCashFlow() {
@@ -104,28 +140,12 @@ public class Report {
         this.infoField = infoField;
     }
 
-    public String getStaus() {
-        return staus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStaus(String staus) {
-        this.staus = staus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Report{" +
-                "id=" + id +
-                ", reportNr='" + reportNr + '\'' +
-                ", employeeList='" + employeeList + '\'' +
-                ", emplyoeeSign='" + emplyoeeSign + '\'' +
-                ", customerSign='" + customerSign + '\'' +
-                ", digatlCashFlow=" + digatlCashFlow +
-                ", cashFlow=" + cashFlow +
-                ", revenue=" + revenue +
-                ", payment=" + payment +
-                ", infoField='" + infoField + '\'' +
-                ", staus='" + staus + '\'' +
-                '}';
-    }
 }

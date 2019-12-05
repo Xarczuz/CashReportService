@@ -1,25 +1,23 @@
 package com.CashReportSystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "customer_profile_table")
 public class CustomerProfile {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String companyName;
     private String orgNr;
     private String firstName;
     private String lastName;
-    private String adress;
-    private String phonenr;
+    private String address;
+    private String phoneNr;
     private String Email;
 
     public CustomerProfile() {
     }
-
 
     public Long getId() {
         return id;
@@ -61,20 +59,20 @@ public class CustomerProfile {
         this.lastName = lastName;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getPhonenr() {
-        return phonenr;
+    public String getPhoneNr() {
+        return phoneNr;
     }
 
-    public void setPhonenr(String phonenr) {
-        this.phonenr = phonenr;
+    public void setPhoneNr(String phoneNr) {
+        this.phoneNr = phoneNr;
     }
 
     public String getEmail() {
@@ -93,8 +91,8 @@ public class CustomerProfile {
                 ", orgNr='" + orgNr + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", adress='" + adress + '\'' +
-                ", phonenr='" + phonenr + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNr='" + phoneNr + '\'' +
                 ", Email='" + Email + '\'' +
                 '}';
     }

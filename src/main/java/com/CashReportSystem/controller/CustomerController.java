@@ -7,25 +7,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ReportController {
+public class CustomerController {
 
-    @PostMapping("/reportlist")
-    public ResponseEntity<String> getReportList(@RequestBody String jsonObject) {
+    @PostMapping("/customerlist")
+    public ResponseEntity<String> getCustomerList(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("/report_add")
-    public ResponseEntity<String> addReport(@RequestBody String jsonObject) {
+    @PostMapping("/customerlist_add")
+    public ResponseEntity<String> addCustomer(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("/report_remove")
-    public ResponseEntity<String> removeReport(@RequestBody String jsonObject) {
+    @PostMapping("/customerlist_remove")
+    public ResponseEntity<String> removeCustomer(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("/report_delete")
-    public ResponseEntity<String> deleteReport(@RequestBody String jsonObject) {
+    @PostMapping("/customerlist_update")
+    public ResponseEntity<String> updateCustomer(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 }
