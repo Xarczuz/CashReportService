@@ -1,4 +1,4 @@
-package com.CashReportSystem.Cash.Report.System;
+package com.CashReportSystem.System;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
