@@ -2,6 +2,9 @@ package com.CashReportSystem.System;
 
 import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.User;
+import com.CashReportSystem.repository.UserRepository;
+import com.CashReportSystem.security.PassAndSalt;
+import com.CashReportSystem.security.PasswordHash;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +31,9 @@ class LoginTest {
     TokenHelper tokenHelper;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     private MockMvc mvc;
 
     @BeforeEach
@@ -39,11 +45,19 @@ class LoginTest {
         responseObject = new JSONObject();
         responseObject.put("token", tokenHelper.tokenBuilder("UserOne"));
         responseObject.put("permission", "admin");
+
+        User user = new User();
+        user.setUsername("UserOne");
+        PassAndSalt passAndSalt = PasswordHash.hashFirstPassword("12345");
+        user.setPassword(passAndSalt.getPASSWORD());
+        user.setSalt(passAndSalt.getSALT());
+        user.setPermission("admin");
+        userRepository.save(user);
     }
 
     @Test
     void login_username_and_password_is_correct() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/login/")
+        mvc.perform(MockMvcRequestBuilders.post("/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userOne.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -55,4 +69,11 @@ class LoginTest {
         mvc.perform(MockMvcRequestBuilders.post("/login/").contentType(MediaType.APPLICATION_JSON)
                 .content(userOne.toString())).andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
+
+    @Test
+    void testTobias(){
+        System.out.println(userOne);
+        System.out.println(responseObject);
+    }
+
 }

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface TokenRepository extends JpaRepository <TokenService,Long> {
+public interface TokenRepository extends JpaRepository <Token,Long> {
     @Query(value = "SELECT * FROM active_tokens WHERE token = :token",
             nativeQuery = true)
     Optional<Token> findByToken(String token);
