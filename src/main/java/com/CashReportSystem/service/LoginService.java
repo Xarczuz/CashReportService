@@ -11,14 +11,14 @@ public class LoginService {
     }
 
     public String authenticateUser() {
-
+        return null;
     }
 
     private String saveToken() {
-
+        return null;
     }
 
     private boolean validatePassword() {
-
+        return false;
     }
 }
