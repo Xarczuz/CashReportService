@@ -17,7 +17,7 @@ public class ReportController {
     @Autowired
     ReportRepository reportRepository;
 
-    @GetMapping("/reportlist")
+    @PostMapping("/reportlist")
     public ResponseEntity<String> getReportList(@RequestBody String jsonObject) {
 
         if(jsonObject != null){

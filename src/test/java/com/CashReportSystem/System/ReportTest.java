@@ -50,7 +50,7 @@ class ReportTest {
 
     @Test
     void get_report_list() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/reportlist")
+        mvc.perform(MockMvcRequestBuilders.post("/reportlist")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(reportList.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
