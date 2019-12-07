@@ -21,12 +21,17 @@ class ReportTest {
     JSONObject reportList;
     JSONObject responseObject;
     JSONObject employee_list;
+    JSONObject customer_list;
 
     @Autowired
     private MockMvc mvc;
 
     @BeforeEach
     void setUp() throws JSONException {
+        customer_list = new JSONObject();
+        customer_list.put("id","1")
+                .put("phoneNr","0731 765 432");
+
         employee_list = new JSONObject();
         employee_list.put("id", "1")
                 .put("employeeNr", "1")
@@ -39,7 +44,7 @@ class ReportTest {
                 .put("reportNr", "1")
                 .put("employeeList", employee_list)
                 .put("employeeSign", "0731 234 567")
-                .put("customerSign","0731 765 432")
+                .put("customerSign", customer_list)
                 .put("digitalCashFlow","500")
                 .put("cashFlow","700")
                 .put("revenue","1200")
