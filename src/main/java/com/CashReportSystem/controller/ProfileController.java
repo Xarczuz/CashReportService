@@ -7,16 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DashBoardController {
-
-    @PostMapping("/dashboard")
-    public ResponseEntity<String> dashboard(@RequestBody String jsonObject) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
-    }
+public class ProfileController {
 
     @PostMapping("/profile_update")
     public ResponseEntity<String> updateProfile(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
-
 }
