@@ -1,17 +1,38 @@
 package com.CashReportSystem.controller;
 
+import com.CashReportSystem.model.EmployeeProfile;
+import com.CashReportSystem.repository.EmployeeProfileRepository;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class EmployeeController {
+    @Autowired
+    EmployeeProfileRepository employeeProfileRepository;
 
     @PostMapping("/employeelist")
     public ResponseEntity<String> getEmployeeList(@RequestBody String jsonObject) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
+        JSONObject employee = new JSONObject();
+
+        JSONArray employeeList = new JSONArray();
+
+        employee.put("employeelist",employeeList);
+
+        List<EmployeeProfile> employeeProfile = employeeProfileRepository.findAll();
+        employeeProfile.forEach(employeeProfile1 -> {
+            employeeList.put(employeeProfile1.toString());
+        });
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(employee.toString());
     }
 
     @PostMapping("/employeelist_add")

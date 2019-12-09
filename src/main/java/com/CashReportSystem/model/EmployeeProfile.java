@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "employee_profile_table")
-public class EmployeeProfile {
+public class EmployeeProfile {//TobiaS BRANCH
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -76,7 +76,7 @@ public class EmployeeProfile {
 
     @Override
     public String toString() {
-        return "EmployeeProfile{" +
+        return "{" +
                 "id=" + id +
                 ", employeeNr='" + employeeNr + '\'' +
                 ", role='" + role + '\'' +
