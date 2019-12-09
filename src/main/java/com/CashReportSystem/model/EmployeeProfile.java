@@ -76,7 +76,7 @@ public class EmployeeProfile {//TobiaS BRANCH
 
     @Override
     public String toString() {
-        return "EmployeeProfile{" +
+        return "{" +
                 "id=" + id +
                 ", employeeNr='" + employeeNr + '\'' +
                 ", role='" + role + '\'' +
