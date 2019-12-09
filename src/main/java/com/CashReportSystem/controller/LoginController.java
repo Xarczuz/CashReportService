@@ -1,39 +1,39 @@
 package com.CashReportSystem.controller;
 
+import com.CashReportSystem.exception.NoSuchUserException;
+import com.CashReportSystem.exception.WrongPasswordException;
 import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.User;
 import com.CashReportSystem.repository.UserRepository;
 import com.CashReportSystem.security.PasswordHash;
+import com.CashReportSystem.service.LoginService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 @RestController
 public class LoginController {
 
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    TokenHelper tokenHelper;
+    LoginService loginService;
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody String jsonObject) {
-
-        JSONObject userJson = new JSONObject(jsonObject);
-
-        User user = userRepository.findByUserName(userJson.get("username").toString()).get();
-        if(user.getPassword().equals(PasswordHash.hashPassword(userJson.getString("password"),user.getSalt()))) {
-            JSONObject responseObject  = new JSONObject();
-            responseObject.put("token",tokenHelper.tokenBuilder(user.getUsername()));
-            responseObject.put("permission",user.getPermission());
-
-            return ResponseEntity.status(HttpStatus.OK).body(responseObject.toString());
+        try {
+            JSONObject responseLoginObject = loginService.authenticateUser(jsonObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseLoginObject.toString());
+        } catch (NoSuchUserException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong User or User doesn't exist.");
+        } catch (WrongPasswordException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong password.");
         }
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
 }
