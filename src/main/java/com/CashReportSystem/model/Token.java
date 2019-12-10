@@ -7,17 +7,26 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "active_tokens_table")
 public class Token {
-
     @Id
     private long id;
     private String token;
+    private long userid;
 
     @Override
     public String toString() {
-        return "Tokens{" +
+        return "Token{" +
                 "id=" + id +
                 ", token='" + token + '\'' +
+                ", userid=" + userid +
                 '}';
+    }
+
+    public long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(long userid) {
+        this.userid = userid;
     }
 
     public Token(String token) {

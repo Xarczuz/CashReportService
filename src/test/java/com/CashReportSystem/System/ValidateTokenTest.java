@@ -1,12 +1,13 @@
 package com.CashReportSystem.System;
 
-import com.CashReportSystem.controller.TokenController;
 import com.CashReportSystem.helper.TokenHelper;
+import com.CashReportSystem.model.Token;
 import com.CashReportSystem.model.User;
 import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.repository.UserRepository;
 import com.CashReportSystem.security.PassAndSalt;
 import com.CashReportSystem.security.PasswordHash;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,54 +25,57 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @AutoConfigureMockMvc
 
-public class TokenTest {
+public class ValidateTokenTest {
 
-    JSONObject userOne;
     JSONObject responseObject;
+
     @Autowired
     TokenHelper tokenHelper;
+
     @Autowired
     UserRepository userRepository;
+
     @Autowired
-    private TokenController tokenController;
+    TokenRepository tokenrepository;
+
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    TokenRepository tokenRepository;
+    private User user;
+    private String token;
+
+    private JSONObject requestObject;
 
     @BeforeEach
     void setUp() throws JSONException {
 
-        userOne = new JSONObject();
-        userOne.put("username", "UserOne");
-        userOne.put("password", "12345");
-
         responseObject = new JSONObject();
-        responseObject.put("token", tokenHelper.tokenBuilder("UserOne"));
-        responseObject.put("permission", "admin");
+        token = tokenHelper.tokenBuilder("UserOne");
 
-        User user = new User();
+
+        responseObject.put("permission", "admin");
+        responseObject.put("username", "UserOne");
+
+        requestObject = new JSONObject();
+        requestObject.put("token", token);
+        user = new User();
         user.setUsername("UserOne");
         PassAndSalt passAndSalt = PasswordHash.hashFirstPassword("12345");
         user.setPassword(passAndSalt.getPASSWORD());
         user.setSalt(passAndSalt.getSALT());
         user.setPermission("admin");
-        userRepository.save(user);
+        User userReturned = userRepository.save(user);
 
+        Token tokenToSave = new Token();
+        tokenToSave.setToken(token);
+        tokenToSave.setUserid(userReturned.getId());
+        tokenrepository.save(tokenToSave);
     }
 
     @Test
     void validateToken() throws Exception {
-
-
-
-
-        mvc.perform(MockMvcRequestBuilders.post("/validate_token")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        String.valueOf(tokenController.validateToken(responseObject.getString("token")))));
-
+        mvc.perform(MockMvcRequestBuilders.post("/validate_token").contentType(MediaType.APPLICATION_JSON)
+                .content(requestObject.toString())).andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(responseObject.toString()));
     }
 }

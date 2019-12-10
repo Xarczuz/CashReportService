@@ -1,5 +1,6 @@
 package com.CashReportSystem.controller;
 
+import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,11 @@ public class TokenController {
 
         if (tokenService.validateToken(tokenJsonObject)) {
 
-            // System.out.println(tokenHelper.tokenParser(token));
-
-            return ResponseEntity.status(HttpStatus.OK).body(tokenHelper.tokenParser(tokenJsonObject));
+            try {
+                return ResponseEntity.status(HttpStatus.OK).body(tokenService.findUserPermission(tokenJsonObject));
+            } catch (NoSuchUserException e) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token is not valid!");
+            }
         }
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token is not valid!");
