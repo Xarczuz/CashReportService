@@ -3,6 +3,7 @@ package com.CashReportSystem.System;
 import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.Report;
 import com.CashReportSystem.repository.ReportRepository;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,11 +22,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 class ReportTest {
 
-    JSONObject reportList;
     JSONObject userOne;
     JSONObject token;
     JSONObject employee_list;
     JSONObject customer_list;
+    JSONObject responseObject;
 
     @Autowired
     private MockMvc mvc;
@@ -86,7 +87,14 @@ class ReportTest {
         report2.setInfoField("Ok kväll");
         report2.setStatus("Avslutad rapport");
 
+        responseObject = new JSONObject();
+        JSONArray reportListJsonArray = new JSONArray();
+        responseObject.put("reportlist", reportListJsonArray);
+        reportListJsonArray.put(report1);
+        reportListJsonArray.put(report2);
+
         reportRepository.save(report1);
+        reportRepository.save(report2);
     }
 
     @Test
@@ -95,9 +103,7 @@ class ReportTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(reportList.toString());
-
-        System.out.println(reportList);
+                .andExpect(MockMvcResultMatchers.content().string(responseObject.toString()));
     }
 
     @Test

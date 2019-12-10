@@ -1,13 +1,17 @@
 package com.CashReportSystem.controller;
 
+import com.CashReportSystem.model.Report;
 import com.CashReportSystem.repository.ReportRepository;
 import com.CashReportSystem.repository.TokenRepository;
 import com.fasterxml.jackson.annotation.JsonAlias;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 // Armen
 @RestController
@@ -20,19 +24,23 @@ public class ReportController {
     TokenRepository tokenRepository;
 
     @PostMapping("/reportlist")
-    public ResponseEntity<String> getReportList(@RequestBody String token) {
+    public ResponseEntity<String> getReportList(@RequestBody String tokenObject) {
+        JSONObject reportObject = new JSONObject();
+        JSONArray reportList = new JSONArray();
 
-        if(token != null){
-            JSONObject reportObject = new JSONObject();
+        reportObject.put("reportlist",reportList);
 
-            return ResponseEntity.status(HttpStatus.OK).body(reportObject.toString());
-        }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No Reports.");
+        List<Report> reports = reportRepository.findAll();
+        reports.forEach(report -> {
+            reportList.put(report.toString());
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(reportObject.toString());
     }
 
     @PostMapping("/report_add")
     public ResponseEntity<String> addReport(@RequestBody String jsonObject) {
-        if(jsonObject != null){
+        if (jsonObject != null) {
             JSONObject reportAddObject = new JSONObject(jsonObject);
             return ResponseEntity.status(HttpStatus.OK).body(reportAddObject.toString());
         }

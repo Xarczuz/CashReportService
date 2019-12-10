@@ -28,11 +28,12 @@ class EmployeeTest {
 
     @Autowired
     TokenHelper tokenHelper;
+
     @Autowired
     EmployeeProfileRepository employeeProfileRepository;
+
     @Autowired
     MockMvc mockMvc;
-
 
     @BeforeEach
     void setUp() throws JSONException {
