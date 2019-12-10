@@ -3,7 +3,6 @@ package com.CashReportSystem.controller;
 import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.exception.WrongPasswordException;
 import com.CashReportSystem.service.LoginService;
-
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

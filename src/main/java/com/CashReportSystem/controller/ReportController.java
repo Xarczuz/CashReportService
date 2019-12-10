@@ -1,11 +1,8 @@
 package com.CashReportSystem.controller;
 
-import java.util.List;
-
 import com.CashReportSystem.model.Report;
 import com.CashReportSystem.repository.ReportRepository;
 import com.CashReportSystem.repository.TokenRepository;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 // Armen
 @RestController
+@RequestMapping(value = "report")
 public class ReportController {
 
     @Autowired
@@ -30,7 +31,7 @@ public class ReportController {
         JSONObject reportObject = new JSONObject();
         JSONArray reportList = new JSONArray();
 
-        reportObject.put("reportlist",reportList);
+        reportObject.put("reportlist", reportList);
 
         List<Report> reports = reportRepository.findAll();
         reports.forEach(report -> {
