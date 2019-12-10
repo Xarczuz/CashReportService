@@ -9,11 +9,10 @@ import com.CashReportSystem.model.User;
 import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.repository.UserRepository;
 import com.CashReportSystem.security.PasswordHash;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 @Service
 public class LoginService {

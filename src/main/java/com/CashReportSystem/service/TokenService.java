@@ -1,21 +1,19 @@
 package com.CashReportSystem.service;
 
 import com.CashReportSystem.repository.TokenRepository;
+
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TokenService {
 
-    private TokenRepository tokenRepo;
-
     public TokenService() {
     }
 
-    public TokenService(TokenRepository tokenRepo) {
-        this.tokenRepo = tokenRepo;
-    }
-
-    public boolean validateToken(String token) {
+    public boolean validateToken(String tokenJsonObject) {
+        JSONObject tokenJson = new JSONObject(tokenJsonObject);
+        String token = tokenJson.getString("token");
         return tokenRepo.findByToken(token).isPresent();
     }
 }
