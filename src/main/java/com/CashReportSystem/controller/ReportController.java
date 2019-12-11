@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-// Armen
+
 @RestController
 @RequestMapping(value = "report")
 public class ReportController {
@@ -26,7 +26,7 @@ public class ReportController {
     @Autowired
     TokenRepository tokenRepository;
 
-    @PostMapping("/reportlist")
+    @PostMapping("reportlist")
     public ResponseEntity<String> getReportList(@RequestBody String tokenObject) {
         JSONObject reportObject = new JSONObject();
         JSONArray reportList = new JSONArray();
@@ -41,7 +41,7 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.OK).body(reportObject.toString());
     }
 
-    @PostMapping("/report_add")
+    @PostMapping("report_add")
     public ResponseEntity<String> addReport(@RequestBody String jsonObject) {
         if (jsonObject != null) {
             JSONObject reportAddObject = new JSONObject(jsonObject);
@@ -50,12 +50,12 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("/report_remove")
+    @PostMapping("report_remove")
     public ResponseEntity<String> removeReport(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("/report_delete")
+    @PostMapping("report_delete")
     public ResponseEntity<String> deleteReport(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }

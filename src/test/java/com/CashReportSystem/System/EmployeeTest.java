@@ -4,9 +4,7 @@ import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.EmployeeProfile;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,30 +15,25 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.List;
-
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 class EmployeeTest {
     JSONObject token;
     JSONObject responseObject;
-
     @Autowired
     TokenHelper tokenHelper;
-
     @Autowired
     EmployeeProfileRepository employeeProfileRepository;
-
     @Autowired
     MockMvc mockMvc;
 
-    @BeforeEach
-    void setUp() throws JSONException {
+    @Test
+    void get_Employees() throws Exception {
         String randomToken = tokenHelper.tokenBuilder("tarem");
 
         token = new JSONObject();
-        token.put("token",randomToken);
+        token.put("token", randomToken);
 
         EmployeeProfile employeeProfile = new EmployeeProfile();
         employeeProfile.setId((long) 1);
@@ -62,17 +55,14 @@ class EmployeeTest {
 
         responseObject = new JSONObject();
         JSONArray employeeJsonArray = new JSONArray();
-        responseObject.put("employeelist",employeeJsonArray);
+        responseObject.put("employeelist", employeeJsonArray);
         employeeJsonArray.put(employeeProfile);
         employeeJsonArray.put(employeeProfileTwo);
 
         employeeProfileRepository.save(employeeProfile);
         employeeProfileRepository.save(employeeProfileTwo);
-    }
 
-    @Test
-    void get_Employees() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/employeelist")
+        mockMvc.perform(MockMvcRequestBuilders.post("/employee/employeelist")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())

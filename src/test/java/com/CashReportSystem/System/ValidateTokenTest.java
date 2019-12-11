@@ -7,10 +7,7 @@ import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.repository.UserRepository;
 import com.CashReportSystem.security.PassAndSalt;
 import com.CashReportSystem.security.PasswordHash;
-
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,39 +23,28 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 
 public class ValidateTokenTest {
-
     JSONObject responseObject;
-
     @Autowired
     TokenHelper tokenHelper;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     TokenRepository tokenrepository;
-
     @Autowired
     private MockMvc mvc;
 
-    private User user;
-    private String token;
-
-    private JSONObject requestObject;
-
-    @BeforeEach
-    void setUp() throws JSONException {
+    @Test
+    void validateToken() throws Exception {
 
         responseObject = new JSONObject();
-        token = tokenHelper.tokenBuilder("UserOne");
-
+        String token = tokenHelper.tokenBuilder("UserOne");
 
         responseObject.put("permission", "admin");
         responseObject.put("username", "UserOne");
 
-        requestObject = new JSONObject();
+        JSONObject requestObject = new JSONObject();
         requestObject.put("token", token);
-        user = new User();
+        User user = new User();
         user.setUsername("UserOne");
         PassAndSalt passAndSalt = PasswordHash.hashFirstPassword("12345");
         user.setPassword(passAndSalt.getPASSWORD());
@@ -70,11 +56,8 @@ public class ValidateTokenTest {
         tokenToSave.setToken(token);
         tokenToSave.setUserid(userReturned.getId());
         tokenrepository.save(tokenToSave);
-    }
 
-    @Test
-    void validateToken() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/validate_token").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(MockMvcRequestBuilders.post("/token/validate_token").contentType(MediaType.APPLICATION_JSON)
                 .content(requestObject.toString())).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(responseObject.toString()));
     }

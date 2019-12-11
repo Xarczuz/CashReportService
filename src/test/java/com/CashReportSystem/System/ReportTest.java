@@ -99,7 +99,7 @@ class ReportTest {
 
     @Test
     void get_report_list() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/reportlist")
+        mvc.perform(MockMvcRequestBuilders.post("/report/reportlist")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -108,7 +108,7 @@ class ReportTest {
 
     @Test
     void report_add() throws Exception {
-      /*  mvc.perform(MockMvcRequestBuilders.post("/report_add")
+      /*  mvc.perform(MockMvcRequestBuilders.post("/report/report_add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(report.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())

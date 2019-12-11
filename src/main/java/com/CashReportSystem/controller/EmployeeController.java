@@ -21,7 +21,7 @@ public class EmployeeController {
     @Autowired
     EmployeeProfileRepository employeeProfileRepository;
 
-    @PostMapping("/employeelist")
+    @PostMapping("employeelist")
     public ResponseEntity<String> getEmployeeList(@RequestBody String jsonObject) {
         JSONObject employee = new JSONObject();
 
@@ -38,17 +38,17 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(employee.toString());
     }
 
-    @PostMapping("/employeelist_add")
+    @PostMapping("employeelist_add")
     public ResponseEntity<String> addEmployee(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("/employeelist_remove")
+    @PostMapping("employeelist_remove")
     public ResponseEntity<String> removeEmployee(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("/employeelist_update")
+    @PostMapping("employeelist_update")
     public ResponseEntity<String> updateEmployee(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }

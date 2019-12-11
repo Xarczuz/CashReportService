@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("profile")
+@RequestMapping(value = "profile")
 public class ProfileController {
-
-    @PostMapping("/profile_update")
+    @PostMapping("profile_update")
     public ResponseEntity<String> updateProfile(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
