@@ -1,6 +1,7 @@
 package com.CashReportSystem.controller;
 
 import com.CashReportSystem.exception.NoSuchTokenException;
+import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.model.Report;
 import com.CashReportSystem.repository.ReportRepository;
 import com.CashReportSystem.repository.TokenRepository;
@@ -26,7 +27,6 @@ public class ReportController {
 
     @PostMapping("reportlist")
     public ResponseEntity<String> getReportList(@RequestBody String tokenObject) {
-
         try {
             String responseObject = reportService.getAllReports(tokenObject);
             return ResponseEntity.status(HttpStatus.OK).body(responseObject);
@@ -37,11 +37,14 @@ public class ReportController {
 
     @PostMapping("report_add")
     public ResponseEntity<String> addReport(@RequestBody String jsonObject) {
-        if (jsonObject != null) {
-            JSONObject reportAddObject = new JSONObject(jsonObject);
-            return ResponseEntity.status(HttpStatus.OK).body(reportAddObject.toString());
+        try {
+           String responseObject = reportService.addReport(jsonObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        } catch (NoSuchTokenException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No such token");
+        }catch (NoSuchUserException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No such user");
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
     @PostMapping("report_remove")
@@ -49,8 +52,9 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("report_delete")
-    public ResponseEntity<String> deleteReport(@RequestBody String jsonObject) {
+    @PostMapping("report_update")
+    public ResponseEntity<String> updateReport(@RequestBody String jsonObject) {
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 }

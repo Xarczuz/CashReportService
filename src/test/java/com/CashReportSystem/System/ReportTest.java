@@ -2,7 +2,11 @@ package com.CashReportSystem.System;
 
 import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.Report;
+import com.CashReportSystem.model.Token;
+import com.CashReportSystem.model.User;
 import com.CashReportSystem.repository.ReportRepository;
+import com.CashReportSystem.repository.TokenRepository;
+import com.CashReportSystem.repository.UserRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +29,10 @@ class ReportTest {
     JSONObject employee_list;
     JSONObject customer_list;
 
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    TokenRepository tokenRepository;
     @Autowired
     private MockMvc mvc;
 
@@ -50,12 +58,17 @@ class ReportTest {
 
     @Test
     void get_report_list() throws Exception {
+
         JSONObject userOne = new JSONObject();
         userOne.put("username", "UserOne");
         userOne.put("password", "12345");
 
         JSONObject token = new JSONObject();
-        token.put("token", tokenHelper.tokenBuilder("UserOne"));
+        String stringToken =  tokenHelper.tokenBuilder("tarem");
+        token.put("token", stringToken);
+        Token tokenToBeRepo = new Token(stringToken);
+        tokenRepository.save(tokenToBeRepo);
+
 
         JSONObject responseObject = new JSONObject();
         JSONArray reportListJsonArray = new JSONArray();
@@ -70,11 +83,34 @@ class ReportTest {
 
     @Test
     void report_add() throws Exception {
-      /*  mvc.perform(MockMvcRequestBuilders.post("/report/report_add")
+        User user = new User();
+        user.setUsername("tarem");
+        user.setPermission("employee");
+
+        userRepository.save(user);
+
+        JSONObject token = new JSONObject();
+        String stringToken =  tokenHelper.tokenBuilder("tarem");
+        token.put("token", stringToken);
+        Token tokenToBeRepo = new Token(stringToken);
+        tokenRepository.save(tokenToBeRepo);
+
+        JSONObject report = new JSONObject();
+        report.put("tablename", "bordEtt");
+
+        JSONObject jsonRequestObject = new JSONObject();
+        jsonRequestObject.put("token",token);
+        jsonRequestObject.put("report",report);
+
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("reportId", "1");
+
+
+        mvc.perform(MockMvcRequestBuilders.post("/report/report_add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(report.toString()))
+                .content(jsonRequestObject.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(reportAdd.toString()));*/
+                .andExpect(MockMvcResultMatchers.content().string(responseObject.toString()));
     }
 
     @Test

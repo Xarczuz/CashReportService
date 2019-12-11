@@ -34,14 +34,30 @@ public class TokenService {
 
         String token = tokenJson.getString("token");
         String username = tokenhelper.tokenParser(token);
-        User user = userRepository.findByUserName(username)
-                .orElseThrow(() -> new NoSuchUserException("Username in token does not exist!"));
+        String permission = getPermission(token);
 
-        String permission = user.getPermission();
         JSONObject responseObject = new JSONObject();
         responseObject.put("permission", permission);
         responseObject.put("username", username);
 
         return responseObject.toString();
+    }
+
+    public boolean checkPermission(String token, String... permissionToCheck) throws NoSuchUserException {
+        JSONObject secondCastToken = new JSONObject(token);
+        String permission = getPermission(secondCastToken.getString("token"));
+        for (String p : permissionToCheck) {
+            if (permission.equals(p)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String getPermission(String token) throws NoSuchUserException {
+        String username = tokenhelper.tokenParser(token);
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new NoSuchUserException("Username in token does not exist!"));
+        return user.getPermission();
     }
 }
