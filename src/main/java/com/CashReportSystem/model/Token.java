@@ -1,13 +1,12 @@
 package com.CashReportSystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "active_tokens_table")
 public class Token {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String token;
     private long userid;

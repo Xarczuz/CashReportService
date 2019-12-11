@@ -44,9 +44,8 @@ public class TokenService {
     }
 
     public boolean checkPermission(String token, String... permissionToCheck) throws NoSuchUserException {
-        JSONObject secondCastToken = new JSONObject(token);
-        String permission = getPermission(secondCastToken.getString("token"));
-        for (String p : permissionToCheck) {
+        String permission = getPermission(token);
+        for (String p : permissionToCheck) { //userPermission=employee -> equals("admin", "employee")
             if (permission.equals(p)) {
                 return true;
             }
