@@ -1,6 +1,6 @@
 package com.CashReportSystem.controller;
 
-import com.CashReportSystem.exception.NoSuchToken;
+import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.service.LogoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class LogoutController {
         try {
             logoutService.logoutUser(jsonObject);
             return ResponseEntity.status(HttpStatus.OK).body("Logout successful.");
-        } catch (NoSuchToken noSuchToken) {
+        } catch (NoSuchTokenException noSuchTokenException) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No such token.");
         }
     }

@@ -1,8 +1,10 @@
 package com.CashReportSystem.controller;
 
+import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.model.Report;
 import com.CashReportSystem.repository.ReportRepository;
 import com.CashReportSystem.repository.TokenRepository;
+import com.CashReportSystem.service.ReportService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,33 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-// Armen
 @RestController
 @RequestMapping(value = "report")
 public class ReportController {
 
     @Autowired
-    ReportRepository reportRepository;
+    ReportService reportService;
 
-    @Autowired
-    TokenRepository tokenRepository;
-
-    @PostMapping("/reportlist")
+    @PostMapping("reportlist")
     public ResponseEntity<String> getReportList(@RequestBody String tokenObject) {
-        JSONObject reportObject = new JSONObject();
-        JSONArray reportList = new JSONArray();
 
-        reportObject.put("reportlist", reportList);
-
-        List<Report> reports = reportRepository.findAll();
-        reports.forEach(report -> {
-            reportList.put(report.toString());
-        });
-
-        return ResponseEntity.status(HttpStatus.OK).body(reportObject.toString());
+        try {
+            String responseObject = reportService.getAllReports(tokenObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        } catch (NoSuchTokenException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not A Valid Token!");
+        }
     }
 
-    @PostMapping("/report_add")
+    @PostMapping("report_add")
     public ResponseEntity<String> addReport(@RequestBody String jsonObject) {
         if (jsonObject != null) {
             JSONObject reportAddObject = new JSONObject(jsonObject);
@@ -50,12 +44,12 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("/report_remove")
+    @PostMapping("report_remove")
     public ResponseEntity<String> removeReport(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }
 
-    @PostMapping("/report_delete")
+    @PostMapping("report_delete")
     public ResponseEntity<String> deleteReport(@RequestBody String jsonObject) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
     }

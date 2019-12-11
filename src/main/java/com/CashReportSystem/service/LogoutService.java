@@ -1,6 +1,6 @@
 package com.CashReportSystem.service;
 
-import com.CashReportSystem.exception.NoSuchToken;
+import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.model.Token;
 import com.CashReportSystem.repository.TokenRepository;
 import org.json.JSONObject;
@@ -13,11 +13,11 @@ public class LogoutService {
     @Autowired
     TokenRepository tokenRepository;
 
-    public void logoutUser(String jsonObject) throws NoSuchToken {
+    public void logoutUser(String jsonObject) throws NoSuchTokenException {
         JSONObject token = new JSONObject(jsonObject);
 
         Token existingToken = tokenRepository.findByToken(token.getString("token"))
-                .orElseThrow(() -> new NoSuchToken("No Token."));
+                .orElseThrow(() -> new NoSuchTokenException("No Token."));
 
         tokenRepository.delete(existingToken);
     }

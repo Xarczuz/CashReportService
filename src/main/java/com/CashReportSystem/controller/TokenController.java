@@ -23,7 +23,7 @@ public class TokenController {
         this.tokenService = tokenService;
     }
 
-    @PostMapping("/validate_token")
+    @PostMapping("validate_token")
     public ResponseEntity<String> validateToken(@RequestBody String tokenJsonObject) {
         if (tokenService.validateToken(tokenJsonObject)) {
             try {
