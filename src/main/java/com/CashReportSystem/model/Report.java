@@ -1,5 +1,7 @@
 package com.CashReportSystem.model;
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,6 +23,24 @@ public class Report {
     private String infoField;
     private String status;
 
+    public JSONObject toJsonObject(){
+        JSONObject reportJSONObject = new JSONObject();
+        reportJSONObject.put("id",id);
+        reportJSONObject.put("tablename",tableName);
+        reportJSONObject.put("location",location);
+        reportJSONObject.put("reportnr",reportNr);
+        reportJSONObject.put("emplpyeelist",employeeList);
+        reportJSONObject.put("employeesign",employeeSign);
+        reportJSONObject.put("customersign",customerSign);
+        reportJSONObject.put("digitalcashflow",digitalCashFlow);
+        reportJSONObject.put("cashflow",cashFlow);
+        reportJSONObject.put("revenue",revenue);
+        reportJSONObject.put("payment",payment);
+        reportJSONObject.put("infofield",infoField);
+        reportJSONObject.put("status",status);
+        return reportJSONObject;
+
+    }
     public Report() {
     }
 
@@ -34,7 +54,7 @@ public class Report {
 
     @Override
     public String toString() {
-        return "Report{" +
+        return "{" +
                 "id=" + id +
                 ", tableName='" + tableName + '\'' +
                 ", location='" + location + '\'' +

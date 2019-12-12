@@ -89,4 +89,37 @@ public class ReportService {
             throw new NoSuchTokenException("Not A Valid Token!");
         }
     }
+
+    public String updateByReportId(String jsonObject) throws NoSuchTokenException, NoReportException {
+        validateToken(jsonObject);
+        JSONObject tokenAndReport = new JSONObject(jsonObject);
+
+        JSONObject reportJSONObject = tokenAndReport.getJSONObject("report");
+        Report reportToBeSaved = new Report();
+        reportToBeSaved.setId(reportJSONObject.getLong("id"));
+        reportToBeSaved.setTableName(reportJSONObject.getString("tablename"));
+        reportToBeSaved.setLocation(reportJSONObject.getString("location"));
+        reportToBeSaved.setReportNr(reportJSONObject.getString("reportnr"));
+        reportToBeSaved.setEmployeeList(reportJSONObject.getString("emplpyeelist"));
+        reportToBeSaved.setEmployeeSign(reportJSONObject.getString("Employeesign"));
+        reportToBeSaved.setCustomerSign(reportJSONObject.getString("customersign"));
+        reportToBeSaved.setDigitalCashFlow(reportJSONObject.getDouble("digitalcashflow"));
+        reportToBeSaved.setCashFlow(reportJSONObject.getDouble("cashflow"));
+        reportToBeSaved.setRevenue(reportJSONObject.getDouble("revenue"));
+        reportToBeSaved.setPayment(reportJSONObject.getDouble("payment"));
+        reportToBeSaved.setPayment(reportJSONObject.getDouble("infofield"));
+        reportToBeSaved.setStatus(reportJSONObject.getString("status"));
+
+        if (reportRepository.existsById(reportToBeSaved.getId())){
+
+            Report databaseReport = reportRepository.save(reportToBeSaved);
+
+            JSONObject responseObject = new JSONObject();
+            responseObject.put("repordid",databaseReport.getId());
+            return responseObject.toString();
+        }else{
+            throw new NoReportException("No such report with that id!");
+        }
+    }
+
 }

@@ -7,15 +7,18 @@ import com.CashReportSystem.model.User;
 import com.CashReportSystem.repository.ReportRepository;
 import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.repository.UserRepository;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.json.JsonbTester;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -80,11 +83,9 @@ class ReportTest {
         User user = new User();
         user.setUsername("tarem");
         user.setPermission("employee");
-
         userRepository.save(user);
 
         String stringToken = tokenHelper.tokenBuilder("tarem");
-
         Token tokenToBeRepo = new Token(stringToken);
         tokenRepository.save(tokenToBeRepo);
 
@@ -137,7 +138,40 @@ class ReportTest {
     }
 
     @Test
-    void report_update() {
+    void report_update() throws Exception {
+        User user = new User();
+        user.setUsername("Pelle");
+        user.setPermission("admin");
+        userRepository.save(user);
+
+        String token = tokenHelper.tokenBuilder("Pelle");
+        Token tokenToRepo = new Token(token);
+        tokenRepository.save(tokenToRepo);
+
+        Report report = new Report();
+        report.setId(4L);
+        report.setTableName("BlackJack");
+        report.setLocation("Stockholm");
+        reportRepository.save(report);
+
+        JSONObject reportJsonObject = new JSONObject();
+        reportJsonObject.put("id",4L);
+        reportJsonObject.put("tablename","Pingis");
+        reportJsonObject.put("location","Helsingborg");
+
+        JSONObject jsonRequestObject = new JSONObject();
+        jsonRequestObject.put("report",report.toJsonObject());
+        jsonRequestObject.put("token",token);
+        System.out.println(jsonRequestObject);
+
+        JSONObject responseJsonObject = new JSONObject();
+        responseJsonObject.put("reportid",4);
+
+        mvc. perform(MockMvcRequestBuilders.post("/report/report_update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonRequestObject.toString()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(responseJsonObject.toString()));
 
         /*customer_list = new JSONObject();
         customer_list.put("id", "1")

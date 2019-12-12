@@ -4,6 +4,7 @@ import com.CashReportSystem.exception.NoReportException;
 import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.service.ReportService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,7 +57,11 @@ public class ReportController {
 
     @PostMapping("report_update")
     public ResponseEntity<String> updateReport(@RequestBody String jsonObject) {
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
+        try {
+            String responseObject = reportService.updateByReportId(jsonObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        }catch (NoReportException | NoSuchTokenException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
