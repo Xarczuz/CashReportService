@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 
 @RestController
@@ -48,7 +49,7 @@ public class CustomerController {
                 return ResponseEntity.status(HttpStatus.OK).body(customer.toString());
 
             }
-        } catch (NoSuchUserException e) {
+        } catch (NoSuchUserException | NoPermissionException e) {
             e.printStackTrace();
         }
 

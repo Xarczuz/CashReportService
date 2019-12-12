@@ -1,5 +1,7 @@
 package com.CashReportSystem.model;
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +16,18 @@ public class EmployeeProfile {//TobiaS BRANCH
     private String lastName;
     private String phoneNr;
     private String Email;
+
+    public JSONObject toJsonObject() {
+        JSONObject employeeJSONObject = new JSONObject();
+        employeeJSONObject.put("id", id);
+        employeeJSONObject.put("employeenr", employeeNr);
+        employeeJSONObject.put("role", role);
+        employeeJSONObject.put("firstname", firstName);
+        employeeJSONObject.put("lastname", lastName);
+        employeeJSONObject.put("phonenr", phoneNr);
+        employeeJSONObject.put("email", Email);
+        return employeeJSONObject;
+    }
 
     public EmployeeProfile() {
     }

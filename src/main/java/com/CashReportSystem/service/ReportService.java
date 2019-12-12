@@ -23,15 +23,15 @@ public class ReportService {
     @Autowired
     TokenService tokenService;
 
-    public String getAllReports(String tokenObject) throws NoSuchTokenException {
-        validateToken(tokenObject);
+    public String getAllReports(String tokenObject) throws NoSuchTokenException{
+        tokenService.validateToken(tokenObject);
         JSONObject reportObject = new JSONObject();
         JSONArray reportList = new JSONArray();
 
         reportObject.put("reportlist", reportList);
 
         List<Report> reports = reportRepository.findAll();
-        reports.forEach(report -> reportList.put(report.toString()));
+        reports.forEach(report -> reportList.put(report.toJsonObject()));
         return reportObject.toString();
     }
 
@@ -39,8 +39,8 @@ public class ReportService {
         JSONObject tokenAndReport = new JSONObject(jsonObject);
         String token = tokenAndReport.getString("token");
 
-        validateToken(jsonObject);
-        checkPermission(token, "admin", "employee");
+        tokenService.validateToken(jsonObject);
+        tokenService.checkPermission(token, "admin", "employee");
 
         JSONObject report = tokenAndReport.getJSONObject("report");
         Report reportToBeSaved = new Report();
@@ -58,8 +58,8 @@ public class ReportService {
         String token = tokenAndReportId.getString("token");
         long reportId = tokenAndReportId.getLong("reportid");
 
-        validateToken(jsonObject);
-        checkPermission(token, "admin");
+        tokenService.validateToken(jsonObject);
+        tokenService.checkPermission(token, "admin");
 
         if (reportRepository.existsById(reportId)) {
             reportRepository.deleteById(reportId);
@@ -71,26 +71,8 @@ public class ReportService {
         }
     }
 
-    private void checkPermission(String token, String... permission) throws NoSuchUserException, NoPermissionException {
-        try {
-            if (!tokenService.checkPermission(token, permission)) {
-                throw new NoPermissionException("No PermissionException");
-            }
-        } catch (NoSuchUserException e) {
-            throw new NoSuchUserException("No such User");
-        } catch (NoPermissionException e) {
-            throw new NoPermissionException("No PermissionException");
-        }
-    }
-
-    private void validateToken(String jsonObject) throws NoSuchTokenException {
-        if (!tokenService.validateToken(jsonObject)) {
-            throw new NoSuchTokenException("Not A Valid Token!");
-        }
-    }
-
     public String updateByReportId(String jsonObject) throws NoSuchTokenException, NoReportException {
-        validateToken(jsonObject);
+        tokenService.validateToken(jsonObject);
         JSONObject tokenAndReport = new JSONObject(jsonObject);
 
         JSONObject reportJSONObject = tokenAndReport.getJSONObject("report");

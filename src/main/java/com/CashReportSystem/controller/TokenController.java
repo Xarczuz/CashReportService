@@ -1,5 +1,6 @@
 package com.CashReportSystem.controller;
 
+import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,16 @@ public class TokenController {
 
     @PostMapping("validate_token")
     public ResponseEntity<String> validateToken(@RequestBody String tokenJsonObject) {
-        if (tokenService.validateToken(tokenJsonObject)) {
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(tokenService.findUserPermission(tokenJsonObject));
-            } catch (NoSuchUserException e) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token is not valid!");
+        try {
+            if (tokenService.validateToken(tokenJsonObject)) {
+                try {
+                    return ResponseEntity.status(HttpStatus.OK).body(tokenService.findUserPermission(tokenJsonObject));
+                } catch (NoSuchUserException e) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token is not valid!");
+                }
             }
+        } catch (NoSuchTokenException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token is not valid!");
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token is not valid!");
     }

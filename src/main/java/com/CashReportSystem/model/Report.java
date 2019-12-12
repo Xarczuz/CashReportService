@@ -11,7 +11,7 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String tableName;
-    private String location ;
+    private String location;
     private String reportNr;
     private String employeeList;
     private String employeeSign;
@@ -22,6 +22,24 @@ public class Report {
     private Double payment;
     private String infoField;
     private String status;
+
+    public JSONObject toJsonObject() {
+        JSONObject reportJSONObject = new JSONObject();
+        reportJSONObject.put("id", id);
+        reportJSONObject.put("tablename", tableName);
+        reportJSONObject.put("location", location);
+        reportJSONObject.put("reportnr", reportNr);
+        reportJSONObject.put("emplpyeelist", employeeList);
+        reportJSONObject.put("employeesign", employeeSign);
+        reportJSONObject.put("customersign", customerSign);
+        reportJSONObject.put("digitalcashflow", digitalCashFlow);
+        reportJSONObject.put("cashflow", cashFlow);
+        reportJSONObject.put("revenue", revenue);
+        reportJSONObject.put("payment", payment);
+        reportJSONObject.put("infofield", infoField);
+        reportJSONObject.put("status", status);
+        return reportJSONObject;
+    }
 
     public Report() {
     }

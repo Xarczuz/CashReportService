@@ -1,5 +1,6 @@
 package com.CashReportSystem.service;
 
+import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.User;
@@ -8,6 +9,8 @@ import com.CashReportSystem.repository.UserRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.naming.NoPermissionException;
 
 @Service
 public class TokenService {
@@ -23,10 +26,15 @@ public class TokenService {
     @Autowired
     private TokenHelper tokenhelper;
 
-    public boolean validateToken(String tokenJsonObject) {
+    public boolean validateToken(String tokenJsonObject) throws NoSuchTokenException {
         JSONObject tokenJson = new JSONObject(tokenJsonObject);
         String token = tokenJson.getString("token");
-        return tokenRepo.findByToken(token).isPresent();
+
+        if(!tokenRepo.findByToken(token).isPresent()){
+            throw new NoSuchTokenException("Token is not valid!");
+        }else {
+            return true;
+        }
     }
 
     public String findUserPermission(String tokenJsonObject) throws NoSuchUserException {
@@ -43,14 +51,14 @@ public class TokenService {
         return responseObject.toString();
     }
 
-    public boolean checkPermission(String token, String... permissionToCheck) throws NoSuchUserException {
+    public boolean checkPermission(String token, String... permissionToCheck) throws NoSuchUserException, NoPermissionException {
         String permission = getPermission(token);
         for (String p : permissionToCheck) { //userPermission=employee -> equals("admin", "employee")
             if (permission.equals(p)) {
                 return true;
             }
         }
-        return false;
+        throw new NoPermissionException("No such Permission!");
     }
 
     private String getPermission(String token) throws NoSuchUserException {

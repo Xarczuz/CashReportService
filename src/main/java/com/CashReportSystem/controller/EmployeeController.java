@@ -1,7 +1,10 @@
 package com.CashReportSystem.controller;
 
+import com.CashReportSystem.exception.NoSuchTokenException;
+import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.model.EmployeeProfile;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
+import com.CashReportSystem.service.EmployeeService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "employee")
 public class EmployeeController {
 
-    @Autowired
-    EmployeeProfileRepository employeeProfileRepository;
+   @Autowired
+    EmployeeService employeeService;
 
     @PostMapping("employeelist")
     public ResponseEntity<String> getEmployeeList(@RequestBody String jsonObject) {
@@ -29,12 +33,18 @@ public class EmployeeController {
 
         employee.put("employeelist",employeeList);
 
+        try {
+            employeeService.getAllEmployees(jsonObject);
+        } catch (NoSuchTokenException | NoPermissionException | NoSuchUserException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
         List<EmployeeProfile> employeeProfile = employeeProfileRepository.findAll();
         employeeProfile.forEach(employeeProfile1 -> {
-            employeeList.put(employeeProfile1.toString());
+            employeeList.put(employeeProfile1.toJsonObject());
         });
 
-        return ResponseEntity.status(HttpStatus.OK).body(employee.toString());
+
     }
 
     @PostMapping("employeelist_add")
