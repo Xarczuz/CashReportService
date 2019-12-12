@@ -1,0 +1,5 @@
+
+insert into user_profile_table(permission,username,password,salt,PROFILE_ID) values ('admin','kalle','buY7fxls0ohPupI4jTtMKmFTEv2sboCfWPInYC+SrR0bp1FbW+6DKbLsb0Ivbi3QlisIQO5HBd+UjKzgMCgJJA==','YYm54hH8n70',1);
+insert into user_profile_table(permission,username,password,salt,PROFILE_ID) values ('admin','pelle','buY7fxls0ohPupI4jTtMKmFTEv2sboCfWPInYC+SrR0bp1FbW+6DKbLsb0Ivbi3QlisIQO5HBd+UjKzgMCgJJA==','YYm54hH8n70',2);
+insert into user_profile_table(permission,username,password,salt,PROFILE_ID) values ('admin','test','buY7fxls0ohPupI4jTtMKmFTEv2sboCfWPInYC+SrR0bp1FbW+6DKbLsb0Ivbi3QlisIQO5HBd+UjKzgMCgJJA==','YYm54hH8n70',1);
+insert into user_profile_table(permission,username,password,salt,PROFILE_ID) values ('admin','testtest','wKpbQvahOtbT2ZfKrB8AzDqH+uUSSWZMrDRiZ8LQm1TfF2xhOMt3eeVxXr7O5ghFI6B8uJTbgrB40g/8S8HlXw==','na9lMAPHtLI=',2);
