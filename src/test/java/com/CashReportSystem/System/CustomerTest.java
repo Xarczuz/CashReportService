@@ -23,10 +23,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class CustomerTest {
     JSONObject token;
     JSONObject responseObject;
+
     @Autowired
     TokenHelper tokenHelper;
+
     @Autowired
     private MockMvc mvc;
+
     @Autowired
     UserRepository userRepository;
     @Autowired

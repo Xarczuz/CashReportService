@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.naming.NoPermissionException;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -32,7 +33,6 @@ public class ReportService {
         List<Report> reports = reportRepository.findAll();
         reports.forEach(report -> reportList.put(report.toString()));
         return reportObject.toString();
-
     }
 
     public String addReport(String jsonObject) throws NoSuchTokenException, NoSuchUserException, NoPermissionException {
@@ -81,7 +81,6 @@ public class ReportService {
         } catch (NoPermissionException e) {
             throw new NoPermissionException("No PermissionException");
         }
-
     }
 
     private void validateToken(String jsonObject) throws NoSuchTokenException {
@@ -96,28 +95,60 @@ public class ReportService {
 
         JSONObject reportJSONObject = tokenAndReport.getJSONObject("report");
         Report reportToBeSaved = new Report();
-        reportToBeSaved.setId(reportJSONObject.getLong("id"));
-        reportToBeSaved.setTableName(reportJSONObject.getString("tablename"));
-        reportToBeSaved.setLocation(reportJSONObject.getString("location"));
-        reportToBeSaved.setReportNr(reportJSONObject.getString("reportnr"));
-        reportToBeSaved.setEmployeeList(reportJSONObject.getString("emplpyeelist"));
-        reportToBeSaved.setEmployeeSign(reportJSONObject.getString("Employeesign"));
-        reportToBeSaved.setCustomerSign(reportJSONObject.getString("customersign"));
-        reportToBeSaved.setDigitalCashFlow(reportJSONObject.getDouble("digitalcashflow"));
-        reportToBeSaved.setCashFlow(reportJSONObject.getDouble("cashflow"));
-        reportToBeSaved.setRevenue(reportJSONObject.getDouble("revenue"));
-        reportToBeSaved.setPayment(reportJSONObject.getDouble("payment"));
-        reportToBeSaved.setPayment(reportJSONObject.getDouble("infofield"));
-        reportToBeSaved.setStatus(reportJSONObject.getString("status"));
 
-        if (reportRepository.existsById(reportToBeSaved.getId())){
+        Iterator<String> iterator = reportJSONObject.keys();
 
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            switch (key) {
+                case "id":
+                    reportToBeSaved.setId(reportJSONObject.getLong("id"));
+                    break;
+                case "tablename":
+                    reportToBeSaved.setTableName(reportJSONObject.getString("tablename"));
+                    break;
+                case "location":
+                    reportToBeSaved.setLocation(reportJSONObject.getString("location"));
+                    break;
+                case "reportnr":
+                    reportToBeSaved.setReportNr(reportJSONObject.getString("reportnr"));
+                    break;
+                case "employeelist":
+                    reportToBeSaved.setEmployeeList(reportJSONObject.getString("emplpyeelist"));
+                    break;
+                case "employeesign":
+                    reportToBeSaved.setEmployeeSign(reportJSONObject.getString("employeesign"));
+                    break;
+                case "customersign":
+                    reportToBeSaved.setCustomerSign(reportJSONObject.getString("customersign"));
+                    break;
+                case "digitalcashflow":
+                    reportToBeSaved.setDigitalCashFlow(reportJSONObject.getDouble("digitalcashflow"));
+                    break;
+                case "cashflow":
+                    reportToBeSaved.setCashFlow(reportJSONObject.getDouble("cashflow"));
+                    break;
+                case "revenue":
+                    reportToBeSaved.setRevenue(reportJSONObject.getDouble("revenue"));
+                    break;
+                case "payment":
+                    reportToBeSaved.setPayment(reportJSONObject.getDouble("payment"));
+                    break;
+                case "infofield":
+                    reportToBeSaved.setInfoField(reportJSONObject.getString("infofield"));
+                    break;
+                case "status":
+                    reportToBeSaved.setStatus(reportJSONObject.getString("status"));
+                    break;
+            }
+        }
+
+        if (reportRepository.existsById(reportToBeSaved.getId())) {
             Report databaseReport = reportRepository.save(reportToBeSaved);
-
             JSONObject responseObject = new JSONObject();
-            responseObject.put("repordid",databaseReport.getId());
+            responseObject.put("reportid", databaseReport.getId());
             return responseObject.toString();
-        }else{
+        } else {
             throw new NoReportException("No such report with that id!");
         }
     }

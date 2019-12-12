@@ -44,7 +44,6 @@ public class ReportController {
 
     @PostMapping("report_remove")
     public ResponseEntity<String> removeReport(@RequestBody String jsonObject) {
-
         try {
             String responseObject = reportService.removeReportByID(jsonObject);
             return ResponseEntity.status(HttpStatus.OK).body(responseObject);
@@ -52,7 +51,6 @@ public class ReportController {
         } catch (NoSuchTokenException | NoPermissionException | NoReportException | NoSuchUserException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
     }
 
     @PostMapping("report_update")
