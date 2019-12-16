@@ -2,8 +2,9 @@ package com.CashReportSystem.System;
 
 import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.EmployeeProfile;
+import com.CashReportSystem.model.Token;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
-import org.json.JSONArray;
+import com.CashReportSystem.repository.TokenRepository;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,10 @@ class EmployeeTest {
     JSONObject responseObject;
     @Autowired
     TokenHelper tokenHelper;
+
+    @Autowired
+    TokenRepository tokenRepository;
+
     @Autowired
     EmployeeProfileRepository employeeProfileRepository;
     @Autowired
@@ -36,6 +41,10 @@ class EmployeeTest {
     void setUp() {
         if (doOnce) {
             //Get
+            String stringToken = tokenHelper.tokenBuilder("tarem");
+            Token tokenToBeRepo = new Token(stringToken);
+            tokenRepository.save(tokenToBeRepo);
+
             EmployeeProfile employeeProfile = new EmployeeProfile();
             employeeProfile.setId((long) 1);
             employeeProfile.setEmployeeNr("1");

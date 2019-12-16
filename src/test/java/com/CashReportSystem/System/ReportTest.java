@@ -7,18 +7,15 @@ import com.CashReportSystem.model.User;
 import com.CashReportSystem.repository.ReportRepository;
 import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.repository.UserRepository;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.JsonbTester;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -181,7 +178,6 @@ class ReportTest {
         JSONObject jsonRequestObject = new JSONObject();
         jsonRequestObject.put("report", reportJsonObject);
         jsonRequestObject.put("token", token);
-        System.out.println(jsonRequestObject);
 
         JSONObject responseJsonObject = new JSONObject();
         responseJsonObject.put("reportid", 2L);

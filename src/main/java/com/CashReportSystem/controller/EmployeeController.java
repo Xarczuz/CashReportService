@@ -1,12 +1,8 @@
 package com.CashReportSystem.controller;
 
 import com.CashReportSystem.exception.NoSuchTokenException;
-import com.CashReportSystem.exception.NoSuchUserException;
-import com.CashReportSystem.model.EmployeeProfile;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
 import com.CashReportSystem.service.EmployeeService;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,36 +11,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.naming.NoPermissionException;
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "employee")
 public class EmployeeController {
 
-   @Autowired
+    @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    EmployeeProfileRepository employeeProfileRepository;
+
     @PostMapping("employeelist")
-    public ResponseEntity<String> getEmployeeList(@RequestBody String jsonObject) {
-        JSONObject employee = new JSONObject();
-
-        JSONArray employeeList = new JSONArray();
-
-        employee.put("employeelist",employeeList);
-
+    public ResponseEntity<String> getEmployeeList(@RequestBody String tokenObject) {
         try {
-            employeeService.getAllEmployees(jsonObject);
-        } catch (NoSuchTokenException | NoPermissionException | NoSuchUserException e) {
+            String responseObject = employeeService.getAllEmployees(tokenObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        } catch (NoSuchTokenException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
-        List<EmployeeProfile> employeeProfile = employeeProfileRepository.findAll();
-        employeeProfile.forEach(employeeProfile1 -> {
-            employeeList.put(employeeProfile1.toJsonObject());
-        });
-
-
     }
 
     @PostMapping("employeelist_add")
