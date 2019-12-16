@@ -1,6 +1,8 @@
 package com.CashReportSystem.controller;
 
+import com.CashReportSystem.exception.NoEmployeeException;
 import com.CashReportSystem.exception.NoSuchTokenException;
+import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
 import com.CashReportSystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.naming.NoPermissionException;
 
 @RestController
 @RequestMapping(value = "employee")
@@ -31,19 +35,34 @@ public class EmployeeController {
         }
     }
 
-    @PostMapping("employeelist_add")
-    public ResponseEntity<String> addEmployee(@RequestBody String jsonObject) {
+    @PostMapping("employee_add")
+    public ResponseEntity<String> addEmployee(@RequestBody String tokenObject) {
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
+        try {
+            String responseObject = employeeService.addEmployee(tokenObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        } catch (NoSuchTokenException | NoSuchUserException | NoPermissionException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
-    @PostMapping("employeelist_remove")
-    public ResponseEntity<String> removeEmployee(@RequestBody String jsonObject) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
+    @PostMapping("employee_remove")
+    public ResponseEntity<String> removeEmployee(@RequestBody String tokenObject) {
+        try {
+            String responseObject = employeeService.removeEmployeeByID(tokenObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        } catch (NoSuchTokenException | NoPermissionException | NoSuchUserException | NoEmployeeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
-    @PostMapping("employeelist_update")
-    public ResponseEntity<String> updateEmployee(@RequestBody String jsonObject) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
+    @PostMapping("employee_update")
+    public ResponseEntity<String> updateEmployee(@RequestBody String tokenObject) {
+        try {
+            String responseObject = employeeService.updateByEmployeeId(tokenObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        } catch (NoSuchTokenException | NoEmployeeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

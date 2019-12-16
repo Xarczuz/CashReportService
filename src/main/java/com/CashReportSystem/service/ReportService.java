@@ -78,6 +78,19 @@ public class ReportService {
         JSONObject reportJSONObject = tokenAndReport.getJSONObject("report");
         Report reportToBeSaved = new Report();
 
+        updateReportWithData(reportJSONObject, reportToBeSaved);
+
+        if (reportRepository.existsById(reportToBeSaved.getId())) {
+            Report databaseReport = reportRepository.save(reportToBeSaved);
+            JSONObject responseObject = new JSONObject();
+            responseObject.put("reportid", databaseReport.getId());
+            return responseObject.toString();
+        } else {
+            throw new NoReportException("No such report with that id!");
+        }
+    }
+
+    private void updateReportWithData(JSONObject reportJSONObject, Report reportToBeSaved) {
         Iterator<String> iterator = reportJSONObject.keys();
 
         while (iterator.hasNext()) {
@@ -123,15 +136,6 @@ public class ReportService {
                     reportToBeSaved.setStatus(reportJSONObject.getString("status"));
                     break;
             }
-        }
-
-        if (reportRepository.existsById(reportToBeSaved.getId())) {
-            Report databaseReport = reportRepository.save(reportToBeSaved);
-            JSONObject responseObject = new JSONObject();
-            responseObject.put("reportid", databaseReport.getId());
-            return responseObject.toString();
-        } else {
-            throw new NoReportException("No such report with that id!");
         }
     }
 
