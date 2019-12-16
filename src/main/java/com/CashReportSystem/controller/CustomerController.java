@@ -1,6 +1,6 @@
 package com.CashReportSystem.controller;
 
-import com.CashReportSystem.exception.NoReportException;
+import com.CashReportSystem.exception.NoEmployeeException;
 import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.repository.CustomerProfileRepository;
@@ -30,14 +30,15 @@ public class CustomerController {
     public ResponseEntity<String> getCustomerList(@RequestBody String jsonObject) {
 
         try {
-            String responseObject = customerService.getAllCustomer(jsonObject);
+            String responseObject = customerService.getAllCustomers(jsonObject);
+
             return ResponseEntity.status(HttpStatus.OK).body(responseObject);
         } catch (NoSuchTokenException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PostMapping("customerlist_add")
+    @PostMapping("customer_add")
     public ResponseEntity<String> addCustomer(@RequestBody String jsonObject) {
         try {
             String responseObject = customerService.addCustomer(jsonObject);
@@ -47,24 +48,24 @@ public class CustomerController {
         }
     }
 
-    @PostMapping("customerlist_remove")
+    @PostMapping("customer_remove")
     public ResponseEntity<String> removeCustomer(@RequestBody String jsonObject) {
         try {
             String responseObject = customerService.removeCustomerByID(jsonObject);
             return ResponseEntity.status(HttpStatus.OK).body(responseObject);
 
-        } catch (NoSuchTokenException | NoPermissionException | NoReportException | NoSuchUserException e) {
+        } catch (NoSuchTokenException | NoPermissionException | NoSuchUserException | NoEmployeeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
     }
 
-    @PostMapping("customerlist_update")
+    @PostMapping("customer_update")
     public ResponseEntity<String> updateCustomer(@RequestBody String jsonObject) {
         try {
             String responseObject = customerService.updateByCustomerId(jsonObject);
             return ResponseEntity.status(HttpStatus.OK).body(responseObject);
-        } catch (NoReportException | NoSuchTokenException e) {
+        } catch (NoSuchTokenException | NoEmployeeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

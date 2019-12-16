@@ -1,5 +1,7 @@
 package com.CashReportSystem.model;
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -95,5 +97,19 @@ public class CustomerProfile {
                 ", phoneNr='" + phoneNr + '\'' +
                 ", Email='" + Email + '\'' +
                 '}';
+    }
+
+    public JSONObject toJsonObject() {
+
+        JSONObject customerJSONObject = new JSONObject();
+        customerJSONObject.put("id", id);
+        customerJSONObject.put("orgnr", orgNr);
+        customerJSONObject.put("address", address);
+        customerJSONObject.put("firstname", firstName);
+        customerJSONObject.put("lastname", lastName);
+        customerJSONObject.put("phonenr", phoneNr);
+        customerJSONObject.put("email", Email);
+        return customerJSONObject;
+
     }
 }
