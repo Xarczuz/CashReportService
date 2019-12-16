@@ -1,11 +1,11 @@
 package com.CashReportSystem.controller;
 
+import com.CashReportSystem.exception.NoReportException;
+import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.exception.NoSuchUserException;
-import com.CashReportSystem.model.CustomerProfile;
 import com.CashReportSystem.repository.CustomerProfileRepository;
+import com.CashReportSystem.service.CustomerService;
 import com.CashReportSystem.service.TokenService;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.naming.NoPermissionException;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "customer")
@@ -24,51 +23,49 @@ public class CustomerController {
     CustomerProfileRepository customerProfileRepository;
     @Autowired
     TokenService tokenService;
+    @Autowired
+    CustomerService customerService;
 
     @PostMapping("customerlist")
     public ResponseEntity<String> getCustomerList(@RequestBody String jsonObject) {
 
-        JSONObject parser = new JSONObject(jsonObject);
-        System.out.println(parser.getString("token"));
-        String[] permission = {"admin"};
         try {
-            if (tokenService.checkPermission(parser.get("token").toString(), permission)) {
-
-                JSONObject customer = new JSONObject();
-
-                JSONArray customerList = new JSONArray();
-
-                customer.put("customerlist", customerList);
-
-                List<CustomerProfile> customerprofile = customerProfileRepository.findAll();
-                customerprofile.forEach(customerProfiles -> {
-                    customerList.put(customerProfiles.toString());
-
-                });
-
-                return ResponseEntity.status(HttpStatus.OK).body(customer.toString());
-
-            }
-        } catch (NoSuchUserException | NoPermissionException e) {
-            e.printStackTrace();
+            String responseObject = customerService.getAllCustomer(jsonObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        } catch (NoSuchTokenException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The permission is not right");
-
     }
 
     @PostMapping("customerlist_add")
     public ResponseEntity<String> addCustomer(@RequestBody String jsonObject) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
+        try {
+            String responseObject = customerService.addCustomer(jsonObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        } catch (NoSuchTokenException | NoPermissionException | NoSuchUserException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("customerlist_remove")
     public ResponseEntity<String> removeCustomer(@RequestBody String jsonObject) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
+        try {
+            String responseObject = customerService.removeCustomerByID(jsonObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+
+        } catch (NoSuchTokenException | NoPermissionException | NoReportException | NoSuchUserException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
 
     @PostMapping("customerlist_update")
     public ResponseEntity<String> updateCustomer(@RequestBody String jsonObject) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("TODO");
+        try {
+            String responseObject = customerService.updateByCustomerId(jsonObject);
+            return ResponseEntity.status(HttpStatus.OK).body(responseObject);
+        } catch (NoReportException | NoSuchTokenException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
