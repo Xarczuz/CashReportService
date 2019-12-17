@@ -41,7 +41,7 @@ public class CustomerTest {
 
     @BeforeEach
     void setUp() throws JSONException {
-        randomToken = tokenHelper.tokenBuilder("tarem");
+        randomToken = tokenHelper.tokenBuilder("customer");
         token = new JSONObject();
         token.put("token", randomToken);
 
@@ -52,7 +52,7 @@ public class CustomerTest {
 
             User user = new User();
             user.setPermission("admin");
-            user.setUsername("tarem");
+            user.setUsername("customer");
             userRepository.save(user);
 
             CustomerProfile customerProfileFirst = new CustomerProfile();

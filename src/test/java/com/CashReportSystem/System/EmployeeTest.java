@@ -41,7 +41,7 @@ class EmployeeTest {
 
     @BeforeEach
     void setUp() throws JSONException {
-        randomToken = tokenHelper.tokenBuilder("tarem");
+        randomToken = tokenHelper.tokenBuilder("employee");
         token = new JSONObject();
         token.put("token", randomToken);
 
@@ -50,7 +50,7 @@ class EmployeeTest {
             tokenRepository.save(tokenToBeRepo);
 
             User user = new User();
-            user.setUsername("tarem");
+            user.setUsername("employee");
             user.setPermission("admin");
             userRepository.save(user);
 
