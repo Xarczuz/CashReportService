@@ -8,14 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Perham
  */
 @RestController
-@RequestMapping(value = "token")
+
 public class TokenController {
     @Autowired
     private final TokenService tokenService;
@@ -24,7 +23,7 @@ public class TokenController {
         this.tokenService = tokenService;
     }
 
-    @PostMapping("validate_token")
+    @PostMapping("/validate_token")
     public ResponseEntity<String> validateToken(@RequestBody String tokenJsonObject) {
         try {
             if (tokenService.validateToken(tokenJsonObject)) {

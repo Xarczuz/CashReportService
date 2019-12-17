@@ -57,7 +57,7 @@ public class ValidateTokenTest {
         tokenToSave.setUserid(userReturned.getId());
         tokenrepository.save(tokenToSave);
 
-        mvc.perform(MockMvcRequestBuilders.post("/token/validate_token").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(MockMvcRequestBuilders.post("/validate_token").contentType(MediaType.APPLICATION_JSON)
                 .content(requestObject.toString())).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(responseObject.toString()));
     }
