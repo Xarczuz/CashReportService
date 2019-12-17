@@ -62,4 +62,9 @@ public class LoginService {
         return userInDb.getPassword()
                 .equals(PasswordHash.hashPassword(loginUserJson.getString("password"), userInDb.getSalt()));
     }
+
+    public boolean validatePassword(String username, String password) throws NoSuchUserException {
+        User userInDb = userRepository.findByUserName(username).orElseThrow(() -> new NoSuchUserException("No such user!"));
+        return userInDb.getPassword().equals(PasswordHash.hashPassword(password, userInDb.getSalt()));
+    }
 }
