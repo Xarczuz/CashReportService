@@ -2,7 +2,7 @@ package com.CashReportSystem.view;
 
 import com.CashReportSystem.model.EmployeeProfile;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
-import com.CashReportSystem.service.EmployeeService;
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
@@ -12,16 +12,19 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 @Route
 public class UsersEmployeesUi extends VerticalLayout {
 
-    @Autowired
-    EmployeeProfileRepository employeeProfileRepository;
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
 
-    public UsersEmployeesUi() {
+    }
+
+    public UsersEmployeesUi(EmployeeProfileRepository employeeProfileRepository) {
         MenuBar menuBar = new MenuBar();
         Text selected = new Text("");
         Div message = new Div(new Text("Selected: "), selected);
@@ -54,6 +57,7 @@ public class UsersEmployeesUi extends VerticalLayout {
 
         grid.removeColumnByKey("id");
 
+        add(grid);
         // The Grid<>(Person.class) sorts the properties and in order to
         // reorder the properties we use the 'setColumns' method.
         // grid.setColumns("firstName", "lastName", "age", "address","phoneNumber");

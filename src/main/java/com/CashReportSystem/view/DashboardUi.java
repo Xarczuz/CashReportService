@@ -28,7 +28,7 @@ public class DashboardUi extends VerticalLayout {
         MenuItem users = menuBar.addItem("Users");
         SubMenu usersSubMenu = users.getSubMenu();
         Optional<UI> getUI = getUI();
-        usersSubMenu.addItem("Employee's", e-> getUI.ifPresent(ui -> ui.navigate("usersemployeesui")));
+        usersSubMenu.addItem("Employee's", e -> UI.getCurrent().navigate("usersemployeesui"));
         usersSubMenu.addItem("Customer's");
 
         MenuItem reports = menuBar.addItem("Reports");
