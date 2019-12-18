@@ -1,22 +1,27 @@
 package com.CashReportSystem.view;
 
+import com.CashReportSystem.model.EmployeeProfile;
+import com.CashReportSystem.repository.EmployeeProfileRepository;
+import com.CashReportSystem.service.EmployeeService;
 import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
 @Route
-public class DashboardUi extends VerticalLayout {
+public class UsersEmployeesUi extends VerticalLayout {
 
-    public DashboardUi() {
+    @Autowired
+    EmployeeProfileRepository employeeProfileRepository;
 
+    public UsersEmployeesUi() {
         MenuBar menuBar = new MenuBar();
         Text selected = new Text("");
         Div message = new Div(new Text("Selected: "), selected);
@@ -27,8 +32,7 @@ public class DashboardUi extends VerticalLayout {
 
         MenuItem users = menuBar.addItem("Users");
         SubMenu usersSubMenu = users.getSubMenu();
-        Optional<UI> getUI = getUI();
-        usersSubMenu.addItem("Employee's", e-> getUI.ifPresent(ui -> ui.navigate("usersemployeesui")));
+        usersSubMenu.addItem("Employee's");
         usersSubMenu.addItem("Customer's");
 
         MenuItem reports = menuBar.addItem("Reports");
@@ -38,10 +42,20 @@ public class DashboardUi extends VerticalLayout {
         menuBar.addItem("Sign Out", e -> selected.setText("Sign Out"));
 
         TextField statusField = new TextField();
-        statusField.setLabel("Profile Status");
         statusField.setValue("Admin");
+        statusField.setLabel("Profile Status");
         statusField.setEnabled(false);
 
-        add(statusField,menuBar);
+        // Employees
+        List<EmployeeProfile> employeeProfile = employeeProfileRepository.findAll();
+
+        Grid<EmployeeProfile> grid = new Grid<>(EmployeeProfile.class);
+        grid.setItems(employeeProfile);
+
+        grid.removeColumnByKey("id");
+
+        // The Grid<>(Person.class) sorts the properties and in order to
+        // reorder the properties we use the 'setColumns' method.
+        // grid.setColumns("firstName", "lastName", "age", "address","phoneNumber");
     }
 }
