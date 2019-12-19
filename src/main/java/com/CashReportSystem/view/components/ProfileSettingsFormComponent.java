@@ -1,6 +1,7 @@
 package com.CashReportSystem.view.components;
 
 import com.CashReportSystem.model.EmployeeProfile;
+import com.CashReportSystem.repository.EmployeeProfileRepository;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
@@ -21,37 +22,36 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ProfileSettingsFormComponent {
-    public static Component createSettingsForm(EmployeeProfile employeeProfile) {
+    public static Component createSettingsForm(EmployeeProfile employeeProfile, EmployeeProfileRepository employeeProfileRepository) {
         FormLayout layoutWithBinder = new FormLayout();
         Binder<EmployeeProfile> binder = new Binder<>();
 
 // The object that will be edited
-        EmployeeProfile profileBeingEdited = employeeProfile;
 
 // Create the fields
 
         TextField role = new TextField();
-        role.setValue(profileBeingEdited.getRole());
+        role.setValue(employeeProfile.getRole());
         role.setEnabled(false);
 
         TextField employNr = new TextField();
-        employNr.setValue(profileBeingEdited.getEmployeeNr());
+        employNr.setValue(employeeProfile.getEmployeeNr());
         employNr.setEnabled(false);
 
         TextField firstName = new TextField();
-        firstName.setValue(profileBeingEdited.getFirstName());
+        firstName.setValue(employeeProfile.getFirstName());
         firstName.setValueChangeMode(ValueChangeMode.EAGER);
 
         TextField lastName = new TextField();
-        lastName.setValue(profileBeingEdited.getLastName());
+        lastName.setValue(employeeProfile.getLastName());
         lastName.setValueChangeMode(ValueChangeMode.EAGER);
 
         TextField phone = new TextField();
-        phone.setValue(profileBeingEdited.getPhoneNr());
+        phone.setValue(employeeProfile.getPhoneNr());
         phone.setValueChangeMode(ValueChangeMode.EAGER);
 
         TextField email = new TextField();
-        email.setValue(profileBeingEdited.getEmail());
+        email.setValue(employeeProfile.getEmail());
         email.setValueChangeMode(ValueChangeMode.EAGER);
 
         Label infoLabel = new Label();
@@ -105,8 +105,9 @@ public class ProfileSettingsFormComponent {
 
 // Click listeners for the buttons
         save.addClickListener(event -> {
-            if (binder.writeBeanIfValid(profileBeingEdited)) {
-                infoLabel.setText("Saved bean values: " + profileBeingEdited);
+            if (binder.writeBeanIfValid(employeeProfile)) {
+                infoLabel.setText("Saved bean values: " + employeeProfile);
+                employeeProfileRepository.save(employeeProfile);
             } else {
                 BinderValidationStatus<EmployeeProfile> validate = binder.validate();
                 String errorText = validate.getFieldValidationStatuses()

@@ -19,7 +19,8 @@ public class ProfileSettingsUi extends VerticalLayout {
     }
 
     public ProfileSettingsUi(EmployeeProfileRepository employeeProfileRepository) {
-        EmployeeProfile employeeProfile = employeeProfileRepository.getOne(1L);
+        EmployeeProfile employeeProfile;
+        employeeProfile = employeeProfileRepository.findById(1L).get();
         MenuBar menuBar = MenuBarComponent.createMenuBar();
 
         String permission = "admin";
@@ -28,7 +29,7 @@ public class ProfileSettingsUi extends VerticalLayout {
         statusField.setValue("Admin");
         statusField.setEnabled(false);
 
-        Component form = ProfileSettingsFormComponent.createSettingsForm(employeeProfile);
+        Component form = ProfileSettingsFormComponent.createSettingsForm(employeeProfile, employeeProfileRepository);
 
         add(statusField, menuBar, form);
     }
