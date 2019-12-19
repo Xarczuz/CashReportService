@@ -2,12 +2,11 @@ package com.CashReportSystem.view.components;
 
 import com.CashReportSystem.model.EmployeeProfile;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Binder.Binding;
@@ -22,38 +21,53 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ProfileSettingsFormComponent {
-    public static Component createSettingsForm() {
+    public static Component createSettingsForm(EmployeeProfile employeeProfile) {
         FormLayout layoutWithBinder = new FormLayout();
         Binder<EmployeeProfile> binder = new Binder<>();
 
 // The object that will be edited
-        EmployeeProfile contactBeingEdited = new EmployeeProfile();
+        EmployeeProfile profileBeingEdited = employeeProfile;
 
 // Create the fields
-        TextField firstName = new TextField();
-        firstName.setValueChangeMode(ValueChangeMode.EAGER);
-        TextField lastName = new TextField();
-        lastName.setValueChangeMode(ValueChangeMode.EAGER);
-        TextField phone = new TextField();
-        phone.setValueChangeMode(ValueChangeMode.EAGER);
-        TextField email = new TextField();
-        email.setValueChangeMode(ValueChangeMode.EAGER);
-        DatePicker birthDate = new DatePicker();
-        Checkbox doNotCall = new Checkbox("Do not call");
-        Label infoLabel = new Label();
-        NativeButton save = new NativeButton("Save");
-        NativeButton reset = new NativeButton("Reset");
 
+        TextField role = new TextField();
+        role.setValue(profileBeingEdited.getRole());
+        role.setEnabled(false);
+
+        TextField employNr = new TextField();
+        employNr.setValue(profileBeingEdited.getEmployeeNr());
+        employNr.setEnabled(false);
+
+        TextField firstName = new TextField();
+        firstName.setValue(profileBeingEdited.getFirstName());
+        firstName.setValueChangeMode(ValueChangeMode.EAGER);
+
+        TextField lastName = new TextField();
+        lastName.setValue(profileBeingEdited.getLastName());
+        lastName.setValueChangeMode(ValueChangeMode.EAGER);
+
+        TextField phone = new TextField();
+        phone.setValue(profileBeingEdited.getPhoneNr());
+        phone.setValueChangeMode(ValueChangeMode.EAGER);
+
+        TextField email = new TextField();
+        email.setValue(profileBeingEdited.getEmail());
+        email.setValueChangeMode(ValueChangeMode.EAGER);
+
+        Label infoLabel = new Label();
+
+        NativeButton save = new NativeButton("Save");
+
+        layoutWithBinder.addFormItem(role, "role");
         layoutWithBinder.addFormItem(firstName, "First name");
         layoutWithBinder.addFormItem(lastName, "Last name");
-        layoutWithBinder.addFormItem(birthDate, "Birthdate");
         layoutWithBinder.addFormItem(email, "E-mail");
-        FormLayout.FormItem phoneItem = layoutWithBinder.addFormItem(phone, "Phone");
-        phoneItem.add(doNotCall);
+        layoutWithBinder.addFormItem(employNr, "employnr");
+        layoutWithBinder.addFormItem(phone, "Phone");
 
 // Button bar
         HorizontalLayout actions = new HorizontalLayout();
-        actions.add(save, reset);
+        actions.add(save);
         save.getStyle().set("marginRight", "10px");
 
         SerializablePredicate<String> phoneOrEmailPredicate = value -> !phone
@@ -91,8 +105,8 @@ public class ProfileSettingsFormComponent {
 
 // Click listeners for the buttons
         save.addClickListener(event -> {
-            if (binder.writeBeanIfValid(contactBeingEdited)) {
-                infoLabel.setText("Saved bean values: " + contactBeingEdited);
+            if (binder.writeBeanIfValid(profileBeingEdited)) {
+                infoLabel.setText("Saved bean values: " + profileBeingEdited);
             } else {
                 BinderValidationStatus<EmployeeProfile> validate = binder.validate();
                 String errorText = validate.getFieldValidationStatuses()
@@ -103,13 +117,10 @@ public class ProfileSettingsFormComponent {
                 infoLabel.setText("There are errors: " + errorText);
             }
         });
-        reset.addClickListener(event -> {
-            // clear fields by setting null
-            binder.readBean(null);
-            infoLabel.setText("");
-            doNotCall.setValue(false);
-        });
-        return layoutWithBinder;
+
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.add(layoutWithBinder, save);
+        return verticalLayout;
     }
 
 }
