@@ -17,6 +17,7 @@ public class CustomerProfile {
     private String address;
     private String phoneNr;
     private String Email;
+    private long userId;
 
     public CustomerProfile() {
     }
@@ -85,18 +86,12 @@ public class CustomerProfile {
         Email = email;
     }
 
-    @Override
-    public String toString() {
-        return "CustomerProfile{" +
-                "id=" + id +
-                ", companyName='" + companyName + '\'' +
-                ", orgNr='" + orgNr + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNr='" + phoneNr + '\'' +
-                ", Email='" + Email + '\'' +
-                '}';
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public JSONObject toJsonObject() {
@@ -109,6 +104,7 @@ public class CustomerProfile {
         customerJSONObject.put("lastname", lastName);
         customerJSONObject.put("phonenr", phoneNr);
         customerJSONObject.put("email", Email);
+        customerJSONObject.put("userid", userId);
         return customerJSONObject;
 
     }

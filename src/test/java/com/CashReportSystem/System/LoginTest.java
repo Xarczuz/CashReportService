@@ -36,6 +36,7 @@ class LoginTest {
         JSONObject responseObject = new JSONObject();
         responseObject.put("token", tokenHelper.tokenBuilder("UserOne"));
         responseObject.put("permission", "admin");
+        responseObject.put("username", "UserOne");
 
         User user = new User();
         user.setUsername("UserOne");
