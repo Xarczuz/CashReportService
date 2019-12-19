@@ -1,9 +1,7 @@
 package com.CashReportSystem.view;
 
 import com.CashReportSystem.model.CustomerProfile;
-import com.CashReportSystem.model.EmployeeProfile;
 import com.CashReportSystem.repository.CustomerProfileRepository;
-import com.CashReportSystem.repository.EmployeeProfileRepository;
 import com.CashReportSystem.view.components.MenuBarComponent;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.grid.Grid;
@@ -38,9 +36,9 @@ public class UsersCustomersUi extends VerticalLayout {
 
         //grid.removeColumnByKey("id");
 
-        add(statusField,menuBar, grid);
+        add(statusField, menuBar, grid);
         // The Grid<>(Person.class) sorts the properties and in order to
         // reorder the properties we use the 'setColumns' method.
-        grid.setColumns("id","companyName","orgNr","firstName", "lastName", "address","email", "phoneNr");
+        grid.setColumns("id", "companyName", "orgNr", "firstName", "lastName", "address", "email", "phoneNr");
     }
 }

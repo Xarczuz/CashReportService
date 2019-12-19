@@ -16,11 +16,11 @@ public class LoginUi extends VerticalLayout {
         component.setForgotPasswordButtonVisible(false);
         component.addLoginListener(e -> {
             boolean isAuthenticated = this.loginService.validatePassword(e.getUsername(), e.getPassword());
-                if (isAuthenticated) {
-                    navigateToMainPage();
-                } else {
-                    component.setError(true);
-                }
+            if (isAuthenticated) {
+                navigateToMainPage();
+            } else {
+                component.setError(true);
+            }
             System.out.println(e.getPassword() + " " + e.getUsername());
         });
         add(component);
