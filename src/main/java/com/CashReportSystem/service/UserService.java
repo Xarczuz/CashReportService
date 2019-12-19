@@ -30,7 +30,7 @@ public class UserService {
         JSONObject userObject = new JSONObject();
         JSONArray usersList = new JSONArray();
 
-        userObject.put("reportlist", usersList);
+        userObject.put("userlist", usersList);
 
         List<User> users = userRepository.findAll();
         users.forEach(user -> usersList.put(user.toJsonObject()));
@@ -44,11 +44,9 @@ public class UserService {
         tokenService.validateToken(jsonObject);
         tokenService.checkPermission(token, "admin");
 
-        JSONObject user = tokenAndUser.getJSONObject("user");
+        JSONObject userJSONObject = tokenAndUser.getJSONObject("user");
         User userToBeSaved = new User();
-        userToBeSaved.setUsername(user.getString("username"));
-        userToBeSaved.setPassword(user.getString("password"));
-        userToBeSaved.setPermission(user.getString("permission"));
+        updateReportWithData(userJSONObject, userToBeSaved);
 
         User savedUser = userRepository.save(userToBeSaved);
 

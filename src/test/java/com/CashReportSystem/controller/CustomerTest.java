@@ -86,6 +86,7 @@ public class CustomerTest {
         mvc.perform(MockMvcRequestBuilders.post("/customer/customerlist")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token.toString()))
+                .andDo(mvcResult -> System.out.println(mvcResult.getResponse().getContentAsString()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
     }
@@ -94,7 +95,7 @@ public class CustomerTest {
     void addCustomer() throws Exception {
         
         JSONObject customer = new JSONObject();
-        customer.put("firstName", "pelle");
+        customer.put("firstname", "pelle");
 
         JSONObject jsonRequestObject = new JSONObject();
         jsonRequestObject.put("token", randomToken);
@@ -105,6 +106,12 @@ public class CustomerTest {
                 .content(jsonRequestObject.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(mvcResult -> System.out.println(mvcResult.getResponse().getContentAsString()));
+
+        mvc.perform(MockMvcRequestBuilders.post("/customer/customerlist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(token.toString()))
+                .andDo(mvcResult -> System.out.println(mvcResult.getResponse().getContentAsString()))
+                .andExpect(MockMvcResultMatchers.status().isOk());
 
     }
 

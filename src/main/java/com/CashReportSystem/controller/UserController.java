@@ -8,11 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.naming.NoPermissionException;
 
 @RestController
+@RequestMapping("user")
 public class UserController {
 
     final UserService userService;
@@ -21,7 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("userslist")
+    @PostMapping("userlist")
     public ResponseEntity<String> getUsersList(@RequestBody String tokenObject) {
         try {
             String responseObject = userService.getAllUsers(tokenObject);
@@ -31,7 +33,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("user_create")
+    @PostMapping("user_add")
     public ResponseEntity<String> createUser(@RequestBody String jsonObject) {
         try {
             String responseObject = userService.createUser(jsonObject);
