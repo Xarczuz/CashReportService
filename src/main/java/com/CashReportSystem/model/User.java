@@ -1,5 +1,7 @@
 package com.CashReportSystem.model;
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -66,5 +68,17 @@ public class User {
                 ", password='" + password + '\'' +
                 ", salt='" + salt + '\'' +
                 '}';
+    }
+
+    public JSONObject toJsonObject() {
+
+        JSONObject userJSONObject = new JSONObject();
+        userJSONObject.put("id", id);
+        userJSONObject.put("permission", permission);
+        userJSONObject.put("salt", salt);
+        userJSONObject.put("username", username);
+        userJSONObject.put("password", password);
+
+        return userJSONObject;
     }
 }

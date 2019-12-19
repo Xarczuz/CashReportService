@@ -1,4 +1,4 @@
-package com.CashReportSystem.System;
+package com.CashReportSystem.controller;
 
 import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.Token;

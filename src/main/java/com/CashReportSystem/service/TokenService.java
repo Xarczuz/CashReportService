@@ -7,7 +7,6 @@ import com.CashReportSystem.model.User;
 import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.repository.UserRepository;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.naming.NoPermissionException;
@@ -15,24 +14,23 @@ import javax.naming.NoPermissionException;
 @Service
 public class TokenService {
 
-    public TokenService() {
+    private final TokenRepository tokenRepo;
+    private final UserRepository userRepository;
+    private final TokenHelper tokenhelper;
+
+    public TokenService(TokenRepository tokenRepo, UserRepository userRepository, TokenHelper tokenhelper) {
+        this.tokenRepo = tokenRepo;
+        this.userRepository = userRepository;
+        this.tokenhelper = tokenhelper;
     }
-
-    @Autowired
-    private TokenRepository tokenRepo;
-
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TokenHelper tokenhelper;
 
     public boolean validateToken(String tokenJsonObject) throws NoSuchTokenException {
         JSONObject tokenJson = new JSONObject(tokenJsonObject);
         String token = tokenJson.getString("token");
 
-        if(!tokenRepo.findByToken(token).isPresent()){
+        if (!tokenRepo.findByToken(token).isPresent()) {
             throw new NoSuchTokenException("Token is not valid!");
-        }else {
+        } else {
             return true;
         }
     }

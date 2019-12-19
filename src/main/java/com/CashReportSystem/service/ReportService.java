@@ -7,7 +7,6 @@ import com.CashReportSystem.model.Report;
 import com.CashReportSystem.repository.ReportRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.naming.NoPermissionException;
@@ -17,13 +16,15 @@ import java.util.List;
 @Service
 public class ReportService {
 
-    @Autowired
-    ReportRepository reportRepository;
+    final ReportRepository reportRepository;
+    final TokenService tokenService;
 
-    @Autowired
-    TokenService tokenService;
+    public ReportService(ReportRepository reportRepository, TokenService tokenService) {
+        this.reportRepository = reportRepository;
+        this.tokenService = tokenService;
+    }
 
-    public String getAllReports(String tokenObject) throws NoSuchTokenException{
+    public String getAllReports(String tokenObject) throws NoSuchTokenException {
         tokenService.validateToken(tokenObject);
         JSONObject reportObject = new JSONObject();
         JSONArray reportList = new JSONArray();

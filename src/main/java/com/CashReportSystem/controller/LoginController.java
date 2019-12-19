@@ -4,19 +4,20 @@ import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.exception.WrongPasswordException;
 import com.CashReportSystem.service.LoginService;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
 
-    @Autowired
-    LoginService loginService;
+    final LoginService loginService;
+
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody String jsonObject) {

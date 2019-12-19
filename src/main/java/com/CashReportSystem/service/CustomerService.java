@@ -7,7 +7,6 @@ import com.CashReportSystem.model.CustomerProfile;
 import com.CashReportSystem.repository.CustomerProfileRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.naming.NoPermissionException;
@@ -17,10 +16,14 @@ import java.util.List;
 @Service
 
 public class CustomerService {
-    @Autowired
-    CustomerProfileRepository customerProfileRepository;
-    @Autowired
-    TokenService tokenService;
+
+    final CustomerProfileRepository customerProfileRepository;
+    final TokenService tokenService;
+
+    public CustomerService(CustomerProfileRepository customerProfileRepository, TokenService tokenService) {
+        this.customerProfileRepository = customerProfileRepository;
+        this.tokenService = tokenService;
+    }
 
     public String getAllCustomers(String tokenObject) throws NoSuchTokenException {
 

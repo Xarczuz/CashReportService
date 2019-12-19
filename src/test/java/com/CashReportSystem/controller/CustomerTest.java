@@ -1,4 +1,4 @@
-package com.CashReportSystem.System;
+package com.CashReportSystem.controller;
 
 import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.CustomerProfile;
@@ -24,8 +24,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 @SpringBootTest
 public class CustomerTest {
+
     JSONObject token;
-    JSONObject responseObject;
     String randomToken;
     @Autowired
     TokenHelper tokenHelper;

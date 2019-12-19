@@ -9,23 +9,19 @@ import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.repository.UserRepository;
 import com.CashReportSystem.security.PasswordHash;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
 
-    @Autowired
-    TokenRepository tokenRepository;
+    final TokenRepository tokenRepository;
+    final UserRepository userRepository;
+    final TokenHelper tokenHelper;
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    TokenHelper tokenHelper;
-
-    public LoginService() {
-
+    public LoginService(TokenRepository tokenRepository, UserRepository userRepository, TokenHelper tokenHelper) {
+        this.tokenRepository = tokenRepository;
+        this.userRepository = userRepository;
+        this.tokenHelper = tokenHelper;
     }
 
     public JSONObject authenticateUser(String jsonObject) throws NoSuchUserException, WrongPasswordException {

@@ -6,7 +6,6 @@ import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.repository.CustomerProfileRepository;
 import com.CashReportSystem.service.CustomerService;
 import com.CashReportSystem.service.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +18,15 @@ import javax.naming.NoPermissionException;
 @RestController
 @RequestMapping(value = "customer")
 public class CustomerController {
-    @Autowired
-    CustomerProfileRepository customerProfileRepository;
-    @Autowired
-    TokenService tokenService;
-    @Autowired
-    CustomerService customerService;
+    final CustomerProfileRepository customerProfileRepository;
+    final TokenService tokenService;
+    final CustomerService customerService;
+
+    public CustomerController(CustomerProfileRepository customerProfileRepository, TokenService tokenService, CustomerService customerService) {
+        this.customerProfileRepository = customerProfileRepository;
+        this.tokenService = tokenService;
+        this.customerService = customerService;
+    }
 
     @PostMapping("customerlist")
     public ResponseEntity<String> getCustomerList(@RequestBody String jsonObject) {

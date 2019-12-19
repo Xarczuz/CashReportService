@@ -5,7 +5,6 @@ import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.exception.NoSuchUserException;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
 import com.CashReportSystem.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +18,14 @@ import javax.naming.NoPermissionException;
 @RequestMapping(value = "employee")
 public class EmployeeController {
 
-    @Autowired
-    EmployeeService employeeService;
+    final EmployeeService employeeService;
 
-    @Autowired
-    EmployeeProfileRepository employeeProfileRepository;
+    final EmployeeProfileRepository employeeProfileRepository;
+
+    public EmployeeController(EmployeeService employeeService, EmployeeProfileRepository employeeProfileRepository) {
+        this.employeeService = employeeService;
+        this.employeeProfileRepository = employeeProfileRepository;
+    }
 
     @PostMapping("employeelist")
     public ResponseEntity<String> getEmployeeList(@RequestBody String tokenObject) {
