@@ -10,10 +10,9 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tableName;
+    private String gameTableName;
     private String location;
     private String reportNr;
-    private String employeeList;
     private String employeeSign;
     private String customerSign;
     private Double digitalCashFlow;
@@ -26,10 +25,9 @@ public class Report {
     public JSONObject toJsonObject() {
         JSONObject reportJSONObject = new JSONObject();
         reportJSONObject.put("id", id);
-        reportJSONObject.put("tablename", tableName);
+        reportJSONObject.put("tablename", gameTableName);
         reportJSONObject.put("location", location);
         reportJSONObject.put("reportnr", reportNr);
-        reportJSONObject.put("emplpyeelist", employeeList);
         reportJSONObject.put("employeesign", employeeSign);
         reportJSONObject.put("customersign", customerSign);
         reportJSONObject.put("digitalcashflow", digitalCashFlow);
@@ -44,22 +42,21 @@ public class Report {
     public Report() {
     }
 
-    public String getTableName() {
-        return tableName;
+    public String getGameTableName() {
+        return gameTableName;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setGameTableName(String gameTableName) {
+        this.gameTableName = gameTableName;
     }
 
     @Override
     public String toString() {
         return "{" +
                 "id=" + id +
-                ", tableName='" + tableName + '\'' +
+                ", tableName='" + gameTableName + '\'' +
                 ", location='" + location + '\'' +
                 ", reportNr='" + reportNr + '\'' +
-                ", employeeList='" + employeeList + '\'' +
                 ", employeeSign='" + employeeSign + '\'' +
                 ", customerSign='" + customerSign + '\'' +
                 ", digitalCashFlow=" + digitalCashFlow +
@@ -94,14 +91,6 @@ public class Report {
 
     public void setReportNr(String reportNr) {
         this.reportNr = reportNr;
-    }
-
-    public String getEmployeeList() {
-        return employeeList;
-    }
-
-    public void setEmployeeList(String employeeList) {
-        this.employeeList = employeeList;
     }
 
     public String getEmployeeSign() {

@@ -49,11 +49,11 @@ class ReportTest {
             tokenRepository.save(tokenToBeRepo);
 
             Report report = new Report();
-            report.setTableName("Poker 1");
+            report.setGameTableName("Poker 1");
             report.setLocation("Oslo");
             reportRepository.save(report);
             Report report2 = new Report();
-            report.setTableName("Poker 12");
+            report.setGameTableName("Poker 12");
             report.setLocation("Oslos");
             reportRepository.save(report2);
 
@@ -68,7 +68,7 @@ class ReportTest {
             tokenRepository.save(tokenToBeRepo);
 
             report = new Report();
-            report.setTableName("Poker 1");
+            report.setGameTableName("Poker 1");
             report.setLocation("Oslo");
             reportRepository.save(report);
 
@@ -94,7 +94,7 @@ class ReportTest {
 
             report = new Report();
             report.setId(2L);
-            report.setTableName("BlackJack");
+            report.setGameTableName("BlackJack");
             report.setLocation("Stockholm");
             reportRepository.save(report);
 

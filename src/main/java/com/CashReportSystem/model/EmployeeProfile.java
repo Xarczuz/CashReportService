@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "employee_profile_table")
-public class EmployeeProfile {//TobiaS BRANCH
+public class EmployeeProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,7 +15,16 @@ public class EmployeeProfile {//TobiaS BRANCH
     private String firstName;
     private String lastName;
     private String phoneNr;
-    private String Email;
+    private String email;
+    private long userId;
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     public JSONObject toJsonObject() {
         JSONObject employeeJSONObject = new JSONObject();
@@ -25,7 +34,8 @@ public class EmployeeProfile {//TobiaS BRANCH
         employeeJSONObject.put("firstname", firstName);
         employeeJSONObject.put("lastname", lastName);
         employeeJSONObject.put("phonenr", phoneNr);
-        employeeJSONObject.put("email", Email);
+        employeeJSONObject.put("email", email);
+        employeeJSONObject.put("userid", userId);
         return employeeJSONObject;
     }
 
@@ -81,23 +91,24 @@ public class EmployeeProfile {//TobiaS BRANCH
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "EmployeeProfile{" +
                 "id=" + id +
                 ", employeeNr='" + employeeNr + '\'' +
                 ", role='" + role + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNr='" + phoneNr + '\'' +
-                ", Email='" + Email + '\'' +
+                ", email='" + email + '\'' +
+                ", userId=" + userId +
                 '}';
     }
 }

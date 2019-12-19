@@ -13,7 +13,6 @@ public class User {
     private String username;
     private String password;
     private String salt;
-    private long profileId;
 
     public User() {
     }
@@ -58,14 +57,6 @@ public class User {
         this.salt = salt;
     }
 
-    public long getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(long profileId) {
-        this.profileId = profileId;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -74,7 +65,6 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", salt='" + salt + '\'' +
-                ", profileId=" + profileId +
                 '}';
     }
 }

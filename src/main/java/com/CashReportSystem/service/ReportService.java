@@ -44,7 +44,7 @@ public class ReportService {
 
         JSONObject report = tokenAndReport.getJSONObject("report");
         Report reportToBeSaved = new Report();
-        reportToBeSaved.setTableName(report.getString("tablename"));
+        reportToBeSaved.setGameTableName(report.getString("tablename"));
         Report savedReport = reportRepository.save(reportToBeSaved);
 
         JSONObject responseObject = new JSONObject();
@@ -100,16 +100,13 @@ public class ReportService {
                     reportToBeSaved.setId(reportJSONObject.getLong("id"));
                     break;
                 case "tablename":
-                    reportToBeSaved.setTableName(reportJSONObject.getString("tablename"));
+                    reportToBeSaved.setGameTableName(reportJSONObject.getString("tablename"));
                     break;
                 case "location":
                     reportToBeSaved.setLocation(reportJSONObject.getString("location"));
                     break;
                 case "reportnr":
                     reportToBeSaved.setReportNr(reportJSONObject.getString("reportnr"));
-                    break;
-                case "employeelist":
-                    reportToBeSaved.setEmployeeList(reportJSONObject.getString("emplpyeelist"));
                     break;
                 case "employeesign":
                     reportToBeSaved.setEmployeeSign(reportJSONObject.getString("employeesign"));
