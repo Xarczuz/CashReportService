@@ -1,9 +1,14 @@
 package com.CashReportSystem.service;
 
-import org.json.JSONObject;
+import com.CashReportSystem.model.TimeStamp;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TimestampService {
-    //TODO
+    TimeStamp timeStampModel;
+
+    public String checkIn(String jsonObject) {
+
+        return null;
+    }
 }
