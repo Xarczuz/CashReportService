@@ -4,7 +4,6 @@ import com.CashReportSystem.model.EmployeeProfile;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
 import com.CashReportSystem.view.components.MenuBarComponent;
 import com.CashReportSystem.view.components.ProfileSettingsFormComponent;
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -13,10 +12,6 @@ import com.vaadin.flow.router.Route;
 
 @Route()
 public class ProfileSettingsUi extends VerticalLayout {
-    @Override
-    protected void onAttach(AttachEvent attachEvent) {
-        super.onAttach(attachEvent);
-    }
 
     public ProfileSettingsUi(EmployeeProfileRepository employeeProfileRepository) {
         EmployeeProfile employeeProfile;

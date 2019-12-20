@@ -26,10 +26,6 @@ public class ProfileSettingsFormComponent {
         FormLayout layoutWithBinder = new FormLayout();
         Binder<EmployeeProfile> binder = new Binder<>();
 
-// The object that will be edited
-
-// Create the fields
-
         TextField role = new TextField();
         role.setValue(employeeProfile.getRole());
         role.setEnabled(false);
@@ -65,7 +61,6 @@ public class ProfileSettingsFormComponent {
         layoutWithBinder.addFormItem(employNr, "employnr");
         layoutWithBinder.addFormItem(phone, "Phone");
 
-// Button bar
         HorizontalLayout actions = new HorizontalLayout();
         actions.add(save);
         save.getStyle().set("marginRight", "10px");
@@ -74,7 +69,6 @@ public class ProfileSettingsFormComponent {
                 .getValue().trim().isEmpty()
                 || !email.getValue().trim().isEmpty();
 
-// E-mail and phone have specific validators
         Binding<EmployeeProfile, String> emailBinding = binder.forField(email)
                 .withValidator(phoneOrEmailPredicate,
                         "Both phone and email cannot be empty")
@@ -86,11 +80,9 @@ public class ProfileSettingsFormComponent {
                         "Both phone and email cannot be empty")
                 .bind(EmployeeProfile::getPhoneNr, EmployeeProfile::setPhoneNr);
 
-// Trigger cross-field validation when the other field is changed
         email.addValueChangeListener(event -> phoneBinding.validate());
         phone.addValueChangeListener(event -> emailBinding.validate());
 
-// First name and last name are required fields
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
 
@@ -103,7 +95,6 @@ public class ProfileSettingsFormComponent {
                         "Please add the last name", 1, null))
                 .bind(EmployeeProfile::getLastName, EmployeeProfile::setLastName);
 
-// Click listeners for the buttons
         save.addClickListener(event -> {
             if (binder.writeBeanIfValid(employeeProfile)) {
                 infoLabel.setText("Saved bean values: " + employeeProfile);

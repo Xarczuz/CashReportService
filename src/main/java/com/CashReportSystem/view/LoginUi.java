@@ -11,9 +11,12 @@ public class LoginUi extends VerticalLayout {
     private final LoginService loginService;
 
     public LoginUi(LoginService loginService) {
+
         this.loginService = loginService;
+
         LoginForm component = new LoginForm();
         component.setForgotPasswordButtonVisible(false);
+
         component.addLoginListener(e -> {
             boolean isAuthenticated = this.loginService.validatePassword(e.getUsername(), e.getPassword());
             if (isAuthenticated) {
@@ -21,8 +24,8 @@ public class LoginUi extends VerticalLayout {
             } else {
                 component.setError(true);
             }
-            System.out.println(e.getPassword() + " " + e.getUsername());
         });
+
         add(component);
     }
 

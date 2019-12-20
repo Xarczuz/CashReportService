@@ -3,7 +3,6 @@ package com.CashReportSystem.view;
 import com.CashReportSystem.model.CustomerProfile;
 import com.CashReportSystem.repository.CustomerProfileRepository;
 import com.CashReportSystem.view.components.MenuBarComponent;
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -15,10 +14,6 @@ import java.util.List;
 @Route
 public class UsersCustomersUi extends VerticalLayout {
 
-    @Override
-    protected void onAttach(AttachEvent attachEvent) {
-        super.onAttach(attachEvent);
-    }
 
     public UsersCustomersUi(CustomerProfileRepository customerProfileRepository) {
         MenuBar menuBar = MenuBarComponent.createMenuBar();

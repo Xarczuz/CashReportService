@@ -10,19 +10,16 @@ public class MenuBarComponent {
 
         MenuBar menuBar = new MenuBar();
 
-        MenuItem profile = menuBar.addItem("Profile");
-        SubMenu profileSubMenu = profile.getSubMenu();
-        MenuItem settings = profileSubMenu.addItem("Settings",
-                e -> UI.getCurrent().navigate("profilesettingsui"));
+        MenuItem profile = menuBar.addItem("Profile", e -> UI.getCurrent().navigate("profilesettingsui"));
+        //SubMenu profileSubMenu = profile.getSubMenu();
 
         MenuItem users = menuBar.addItem("Users");
         SubMenu usersSubMenu = users.getSubMenu();
         usersSubMenu.addItem("Employee's", e -> UI.getCurrent().navigate("usersemployeesui"));
         usersSubMenu.addItem("Customer's", e -> UI.getCurrent().navigate("userscustomersui"));
 
-        MenuItem reports = menuBar.addItem("Reports");
-        SubMenu reportsSubMenu = reports.getSubMenu();
-        reportsSubMenu.addItem("Report's", e -> UI.getCurrent().navigate("reportsui"));
+        MenuItem reports = menuBar.addItem("Reports", e -> UI.getCurrent().navigate("reportsui"));
+        //SubMenu reportsSubMenu = reports.getSubMenu();
 
         menuBar.addItem("Sign Out");
         return menuBar;
