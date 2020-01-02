@@ -4,6 +4,9 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.server.VaadinService;
+
+import javax.servlet.http.Cookie;
 
 public class MenuBarComponent {
     public static com.vaadin.flow.component.menubar.MenuBar createMenuBar() {
@@ -21,7 +24,25 @@ public class MenuBarComponent {
         MenuItem reports = menuBar.addItem("Reports", e -> UI.getCurrent().navigate("reportsui"));
         //SubMenu reportsSubMenu = reports.getSubMenu();
 
-        menuBar.addItem("Sign Out", e -> UI.getCurrent().navigate("loginui"));
+        menuBar.addItem("Sign Out", e -> {
+            MenuBarComponent.deletecookie();
+            UI.getCurrent().navigate("loginui");
+        });
         return menuBar;
     }
+
+
+    public static void deletecookie() {
+        Cookie[] cookie = VaadinService.getCurrentRequest().getCookies();
+        for (Cookie value : cookie) {
+            if (value.getName().equals("token")) {
+                value.setValue("");
+                value.setPath("/");
+                value.setMaxAge(0);
+                VaadinService.getCurrentResponse().addCookie(value);
+            }
+        }
+
+    }
+
 }
