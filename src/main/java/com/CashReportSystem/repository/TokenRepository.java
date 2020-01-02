@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface TokenRepository extends JpaRepository <Token,Long> {
-    @Query(value = "SELECT * FROM active_tokens_table WHERE token = :token",
+    @Query(value = "SELECT DISTINCT * FROM active_tokens_table WHERE token = :token LIMIT 1",
             nativeQuery = true)
     Optional<Token> findByToken(String token);
 }

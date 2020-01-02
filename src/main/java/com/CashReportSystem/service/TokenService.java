@@ -35,6 +35,14 @@ public class TokenService {
         }
     }
 
+    public boolean validateTokenString(String token) throws NoSuchTokenException {
+        if (!tokenRepo.findByToken(token).isPresent()) {
+            throw new NoSuchTokenException("Token is not valid!");
+        } else {
+            return true;
+        }
+    }
+
     public String findUserPermission(String tokenJsonObject) throws NoSuchUserException {
         JSONObject tokenJson = new JSONObject(tokenJsonObject);
 

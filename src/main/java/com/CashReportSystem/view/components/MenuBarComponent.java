@@ -21,7 +21,7 @@ public class MenuBarComponent {
         MenuItem reports = menuBar.addItem("Reports", e -> UI.getCurrent().navigate("reportsui"));
         //SubMenu reportsSubMenu = reports.getSubMenu();
 
-        menuBar.addItem("Sign Out");
+        menuBar.addItem("Sign Out", e -> UI.getCurrent().navigate("loginui"));
         return menuBar;
     }
 }
