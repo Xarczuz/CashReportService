@@ -9,30 +9,27 @@ import com.vaadin.flow.server.VaadinService;
 import javax.servlet.http.Cookie;
 
 public class MenuBarComponent {
-    public static com.vaadin.flow.component.menubar.MenuBar createMenuBar() {
+    public static MenuBar createMenuBar() {
 
         MenuBar menuBar = new MenuBar();
-
-        MenuItem profile = menuBar.addItem("Profile", e -> UI.getCurrent().navigate("profilesettingsui"));
-        //SubMenu profileSubMenu = profile.getSubMenu();
+        menuBar.addItem("Profile", e -> UI.getCurrent().navigate("profilesettingsui"));
 
         MenuItem users = menuBar.addItem("Users");
         SubMenu usersSubMenu = users.getSubMenu();
         usersSubMenu.addItem("Employee's", e -> UI.getCurrent().navigate("usersemployeesui"));
         usersSubMenu.addItem("Customer's", e -> UI.getCurrent().navigate("userscustomersui"));
 
-        MenuItem reports = menuBar.addItem("Reports", e -> UI.getCurrent().navigate("reportsui"));
-        //SubMenu reportsSubMenu = reports.getSubMenu();
+        menuBar.addItem("Reports", e -> UI.getCurrent().navigate("reportsui"));
 
         menuBar.addItem("Sign Out", e -> {
-            MenuBarComponent.deletecookie();
+            MenuBarComponent.deleteCookie();
             UI.getCurrent().navigate("loginui");
         });
         return menuBar;
     }
 
 
-    public static void deletecookie() {
+    public static void deleteCookie() {
         Cookie[] cookie = VaadinService.getCurrentRequest().getCookies();
         for (Cookie value : cookie) {
             if (value.getName().equals("token")) {

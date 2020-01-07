@@ -1,32 +1,39 @@
 package com.CashReportSystem.view;
 
+import com.CashReportSystem.helper.ValidateClientHelper;
 import com.CashReportSystem.model.EmployeeProfile;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
+import com.CashReportSystem.service.TokenService;
 import com.CashReportSystem.view.components.MenuBarComponent;
 import com.CashReportSystem.view.components.ProfileSettingsFormComponent;
+import com.CashReportSystem.view.components.ProfileStatusField;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 
 @Route()
-public class ProfileSettingsUi extends VerticalLayout {
+public class ProfileSettingsUi extends VerticalLayout implements BeforeEnterObserver {
 
-    public ProfileSettingsUi(EmployeeProfileRepository employeeProfileRepository) {
+    private TokenService tokenService;
+    public ProfileSettingsUi(EmployeeProfileRepository employeeProfileRepository, TokenService tokenService) {
+        this.tokenService = tokenService;
+
         EmployeeProfile employeeProfile;
         employeeProfile = employeeProfileRepository.findById(1L).get();
         MenuBar menuBar = MenuBarComponent.createMenuBar();
 
-        String permission = "admin";
-        TextField statusField = new TextField();
-        statusField.setLabel("Profile Status");
-        statusField.setValue("Admin");
-        statusField.setEnabled(false);
-
         Component form = ProfileSettingsFormComponent.createSettingsForm(employeeProfile, employeeProfileRepository);
 
-        add(statusField, menuBar, form);
+        add(ProfileStatusField.createStatusField(), menuBar, form);
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        ValidateClientHelper.validateCurrentUser(event, tokenService);
     }
 
 }

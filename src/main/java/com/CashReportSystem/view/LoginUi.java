@@ -2,6 +2,7 @@ package com.CashReportSystem.view;
 
 import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.helper.TokenHelper;
+import com.CashReportSystem.helper.ValidateClientHelper;
 import com.CashReportSystem.model.Token;
 import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.service.LoginService;
@@ -46,8 +47,7 @@ public class LoginUi extends VerticalLayout implements BeforeEnterObserver {
                         event.rerouteTo(DashboardUi.class);
                     }
                 } catch (NoSuchTokenException e) {
-                    e.getMessage();
-
+                    event.rerouteTo(ForbiddenUI.class);
                 }
             }
         }
@@ -65,6 +65,7 @@ public class LoginUi extends VerticalLayout implements BeforeEnterObserver {
                 tokenEntity.setToken(token);
                 tokenRepository.save(tokenEntity);
                 VaadinService.getCurrentResponse().addCookie(new Cookie("token", token));
+
                 getUI().ifPresent(ui -> ui.navigate("dashboardui"));
 
             } else {
