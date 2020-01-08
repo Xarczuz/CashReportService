@@ -2,7 +2,6 @@ package com.CashReportSystem.view;
 
 import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.helper.TokenHelper;
-import com.CashReportSystem.helper.ValidateClientHelper;
 import com.CashReportSystem.model.Token;
 import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.service.LoginService;
@@ -11,10 +10,9 @@ import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
-
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinService;
-
+import com.vaadin.flow.server.VaadinSession;
 
 import javax.servlet.http.Cookie;
 
@@ -30,7 +28,6 @@ public class LoginUi extends VerticalLayout implements BeforeEnterObserver {
         this.tokenService = tokenService;
         this.tokenRepository = tokenRepository;
 
-
         addLoginForm();
     }
 
@@ -39,15 +36,12 @@ public class LoginUi extends VerticalLayout implements BeforeEnterObserver {
         Cookie[] cookie = VaadinService.getCurrentRequest().getCookies();
         for (int i = 0; i < cookie.length; i++) {
             if (cookie[i].getName().equals("token")) {
-
                 String token = cookie[i].getValue();
-
                 try {
                     if (tokenService.validateTokenString(token)) {
                         event.rerouteTo(DashboardUi.class);
                     }
-                } catch (NoSuchTokenException e) {
-                    event.rerouteTo(ForbiddenUI.class);
+                } catch (NoSuchTokenException ignored) {
                 }
             }
         }
@@ -66,6 +60,8 @@ public class LoginUi extends VerticalLayout implements BeforeEnterObserver {
                 tokenRepository.save(tokenEntity);
                 VaadinService.getCurrentResponse().addCookie(new Cookie("token", token));
 
+                VaadinSession.getCurrent().setAttribute("token", token);
+                VaadinSession.getCurrent().getSession().setMaxInactiveInterval(60);
                 getUI().ifPresent(ui -> ui.navigate("dashboardui"));
 
             } else {

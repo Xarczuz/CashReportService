@@ -5,6 +5,7 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.server.VaadinService;
+import com.vaadin.flow.server.VaadinSession;
 
 import javax.servlet.http.Cookie;
 
@@ -37,6 +38,7 @@ public class MenuBarComponent {
                 value.setPath("/");
                 value.setMaxAge(0);
                 VaadinService.getCurrentResponse().addCookie(value);
+                VaadinSession.getCurrent().close();
             }
         }
 
