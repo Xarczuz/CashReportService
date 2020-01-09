@@ -44,7 +44,7 @@ class ReportTest {
     void setUp() {
         if (doOnce) {
             //Get reportlist
-            String stringToken = tokenHelper.tokenBuilder("tarem");
+            String stringToken = tokenHelper.tokenCryptBuilder("tarem");
             Token tokenToBeRepo = new Token(stringToken);
             tokenRepository.save(tokenToBeRepo);
 
@@ -63,7 +63,7 @@ class ReportTest {
             user.setPermission("admin");
             userRepository.save(user);
 
-            stringToken = tokenHelper.tokenBuilder("Pelle");
+            stringToken = tokenHelper.tokenCryptBuilder("Pelle");
             tokenToBeRepo = new Token(stringToken);
             tokenRepository.save(tokenToBeRepo);
 
@@ -78,7 +78,7 @@ class ReportTest {
             user.setPermission("employee");
             userRepository.save(user);
 
-            stringToken = tokenHelper.tokenBuilder("smartem");
+            stringToken = tokenHelper.tokenCryptBuilder("smartem");
             tokenToBeRepo = new Token(stringToken);
             tokenRepository.save(tokenToBeRepo);
 
@@ -88,7 +88,7 @@ class ReportTest {
             user.setPermission("admin");
             userRepository.save(user);
 
-            String token = tokenHelper.tokenBuilder("Kalle");
+            String token = tokenHelper.tokenCryptBuilder("Kalle");
             Token tokenToRepo = new Token(token);
             tokenRepository.save(tokenToRepo);
 
@@ -105,7 +105,7 @@ class ReportTest {
     @Test
     void get_report_list() throws Exception {
         JSONObject token = new JSONObject();
-        String stringToken = tokenHelper.tokenBuilder("tarem");
+        String stringToken = tokenHelper.tokenCryptBuilder("tarem");
         token.put("token", stringToken);
 
         JSONObject userOne = new JSONObject();
@@ -125,7 +125,7 @@ class ReportTest {
         JSONObject report = new JSONObject();
         report.put("tablename", "bordEtt");
 
-        String stringToken = tokenHelper.tokenBuilder("smartem");
+        String stringToken = tokenHelper.tokenCryptBuilder("smartem");
         JSONObject jsonRequestObject = new JSONObject();
         jsonRequestObject.put("token", stringToken);
         jsonRequestObject.put("report", report);
@@ -151,7 +151,7 @@ class ReportTest {
 
     @Test
     void report_remove() throws Exception {
-        String stringToken = tokenHelper.tokenBuilder("Pelle");
+        String stringToken = tokenHelper.tokenCryptBuilder("Pelle");
         JSONObject jsonRequestObject = new JSONObject();
         jsonRequestObject.put("reportid", 1L);
         jsonRequestObject.put("token", stringToken);
@@ -169,7 +169,7 @@ class ReportTest {
     @Test
     void report_update() throws Exception {
 
-        String token = tokenHelper.tokenBuilder("Kalle");
+        String token = tokenHelper.tokenCryptBuilder("Kalle");
         JSONObject reportJsonObject = new JSONObject();
         reportJsonObject.put("id", 2L);
         reportJsonObject.put("tablename", "Pingis");

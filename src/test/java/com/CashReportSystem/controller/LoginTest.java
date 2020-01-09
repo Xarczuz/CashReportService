@@ -34,7 +34,7 @@ class LoginTest {
         userOne.put("password", "12345");
 
         JSONObject responseObject = new JSONObject();
-        responseObject.put("token", tokenHelper.tokenBuilder("UserOne"));
+        responseObject.put("token", tokenHelper.tokenCryptBuilder("UserOne"));
         responseObject.put("permission", "admin");
         responseObject.put("username", "UserOne");
 

@@ -34,14 +34,16 @@ public class LoginUi extends VerticalLayout implements BeforeEnterObserver {
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
         Cookie[] cookie = VaadinService.getCurrentRequest().getCookies();
-        for (int i = 0; i < cookie.length; i++) {
-            if (cookie[i].getName().equals("token")) {
-                String token = cookie[i].getValue();
-                try {
-                    if (tokenService.validateTokenString(token)) {
-                        event.rerouteTo(DashboardUi.class);
+        if (cookie != null) {
+            for (int i = 0; i < cookie.length; i++) {
+                if (cookie[i].getName().equals("token")) {
+                    String token = cookie[i].getValue();
+                    try {
+                        if (tokenService.validateTokenString(token)) {
+                            event.rerouteTo(DashboardUi.class);
+                        }
+                    } catch (NoSuchTokenException ignored) {
                     }
-                } catch (NoSuchTokenException ignored) {
                 }
             }
         }
@@ -54,14 +56,19 @@ public class LoginUi extends VerticalLayout implements BeforeEnterObserver {
             boolean isAuthenticated = loginService.validatePassword(e.getUsername(), e.getPassword());
             if (isAuthenticated) {
 
-                String token = new TokenHelper().tokenBuilder(e.getUsername());
+                String token = new TokenHelper().tokenCryptBuilder(e.getUsername());
+
                 Token tokenEntity = new Token();
                 tokenEntity.setToken(token);
-                tokenRepository.save(tokenEntity);
+                if (tokenRepository.findByToken(token).isEmpty()) {
+                    tokenRepository.save(tokenEntity);
+                }
+
                 VaadinService.getCurrentResponse().addCookie(new Cookie("token", token));
 
                 VaadinSession.getCurrent().setAttribute("token", token);
                 VaadinSession.getCurrent().getSession().setMaxInactiveInterval(60);
+
                 getUI().ifPresent(ui -> ui.navigate("dashboardui"));
 
             } else {
@@ -70,6 +77,5 @@ public class LoginUi extends VerticalLayout implements BeforeEnterObserver {
         });
         add(component);
     }
-
 
 }

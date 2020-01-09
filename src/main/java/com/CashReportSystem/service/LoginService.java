@@ -38,7 +38,7 @@ public class LoginService {
 
     private JSONObject createResponseObject(User userInDb) {
         JSONObject responseObject = new JSONObject();
-        String token = tokenHelper.tokenBuilder(userInDb.getUsername());
+        String token = tokenHelper.tokenCryptBuilder(userInDb.getUsername());
         saveToken(token);
         responseObject.put("token", token);
         responseObject.put("username", userInDb.getUsername());

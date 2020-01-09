@@ -6,10 +6,13 @@ import com.CashReportSystem.helper.TokenHelper;
 import com.CashReportSystem.model.User;
 import com.CashReportSystem.repository.TokenRepository;
 import com.CashReportSystem.repository.UserRepository;
+import com.vaadin.flow.server.VaadinService;
+import com.vaadin.flow.server.VaadinSession;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.naming.NoPermissionException;
+import javax.servlet.http.Cookie;
 
 @Service
 public class TokenService {
@@ -47,7 +50,7 @@ public class TokenService {
         JSONObject tokenJson = new JSONObject(tokenJsonObject);
 
         String token = tokenJson.getString("token");
-        String username = tokenhelper.tokenParser(token);
+        String username = tokenhelper.tokenDeCrypt(token);
         String permission = getPermission(token);
 
         JSONObject responseObject = new JSONObject();
@@ -68,9 +71,29 @@ public class TokenService {
     }
 
     private String getPermission(String token) throws NoSuchUserException {
-        String username = tokenhelper.tokenParser(token);
+        String username = tokenhelper.tokenDeCrypt(token);
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new NoSuchUserException("Username in token does not exist!"));
         return user.getPermission();
+    }
+
+    public String parseToken(String value) {
+        return tokenhelper.tokenDeCrypt(value);
+    }
+
+    public String getUsernameFromToken() {
+        String username = "";
+        Cookie[] cookies = VaadinService.getCurrentRequest().getCookies();
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("token")) {
+                    username = parseToken(c.getValue());
+                }
+            }
+        }
+        if (VaadinSession.getCurrent().getAttribute("token") != null) {
+            username = parseToken(VaadinSession.getCurrent().getAttribute("token").toString());
+        }
+        return username;
     }
 }

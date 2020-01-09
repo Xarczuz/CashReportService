@@ -37,7 +37,7 @@ public class ValidateTokenTest {
     void validateToken() throws Exception {
 
         responseObject = new JSONObject();
-        String token = tokenHelper.tokenBuilder("UserOne");
+        String token = tokenHelper.tokenCryptBuilder("UserOne");
 
         responseObject.put("permission", "admin");
         responseObject.put("username", "UserOne");

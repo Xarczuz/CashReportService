@@ -41,7 +41,7 @@ public class CustomerTest {
 
     @BeforeEach
     void setUp() throws JSONException {
-        randomToken = tokenHelper.tokenBuilder("customer");
+        randomToken = tokenHelper.tokenCryptBuilder("customer");
         token = new JSONObject();
         token.put("token", randomToken);
 

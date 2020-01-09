@@ -35,7 +35,7 @@ class UserControllerTest {
         userToDB.setPermission("admin");
         userRepository.save(userToDB);
 
-        String stringToken = tokenHelper.tokenBuilder("tarem");
+        String stringToken = tokenHelper.tokenCryptBuilder("tarem");
         Token tokenToBeRepo = new Token(stringToken);
         tokenRepository.save(tokenToBeRepo);
 

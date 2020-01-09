@@ -11,7 +11,7 @@ public class TokenHelper {
     private final byte[] secretKey = {-1, -9, -51, 11, -42, 120, 66, -7, 38, -57, 36, -65, -86, 93, 73, 97, 112, 23, 48, 2, -1, 36, -35, -56, -11, 82, 34, -15, 3, -102, -86, -56};
     private Key Secret = Keys.hmacShaKeyFor(secretKey);
 
-    public String tokenBuilder(String subject) {
+    public String tokenCryptBuilder(String subject) {
         return Jwts.builder().setIssuer("ACDP")
                 .setSubject(subject)
                 //.setExpiration(expirationDate)
@@ -19,7 +19,7 @@ public class TokenHelper {
                 .compact();
     }
 
-    public String tokenParser(String token) {
+    public String tokenDeCrypt(String token) {
         Jws<Claims> jws;
         try {
             jws = Jwts.parser().setSigningKey(Secret).parseClaimsJws(token);

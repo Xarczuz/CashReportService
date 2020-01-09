@@ -15,18 +15,20 @@ public class ValidateClientHelper {
     public static void validateCurrentUser(BeforeEnterEvent event, TokenService tokenService) {
 
         Cookie[] cookie = VaadinService.getCurrentRequest().getCookies();
-        for (int i = 0; i < cookie.length; i++) {
+        if (cookie != null) {
+            for (int i = 0; i < cookie.length; i++) {
 
-            if (cookie[i].getName().equals("token")) {
+                if (cookie[i].getName().equals("token")) {
 
-                String token = cookie[i].getValue();
+                    String token = cookie[i].getValue();
 
-                try {
-                    if (tokenService.validateTokenString(token)) {
-                        return;
+                    try {
+                        if (tokenService.validateTokenString(token)) {
+                            return;
+                        }
+                    } catch (NoSuchTokenException e) {
+                        event.rerouteTo(ForbiddenUI.class);
                     }
-                } catch (NoSuchTokenException e) {
-                    event.rerouteTo(ForbiddenUI.class);
                 }
             }
         }

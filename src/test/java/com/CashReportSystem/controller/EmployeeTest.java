@@ -42,7 +42,7 @@ class EmployeeTest {
 
     @BeforeEach
     void setUp() throws JSONException {
-        randomToken = tokenHelper.tokenBuilder("employee");
+        randomToken = tokenHelper.tokenCryptBuilder("employee");
         token = new JSONObject();
         token.put("token", randomToken);
 
