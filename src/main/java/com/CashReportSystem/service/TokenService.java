@@ -73,8 +73,4 @@ public class TokenService {
                 .orElseThrow(() -> new NoSuchUserException("Username in token does not exist!"));
         return user.getPermission();
     }
-
-    public String parseToken(String token){
-        return tokenhelper.tokenParser(token);
-    }
 }
