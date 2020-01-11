@@ -37,7 +37,7 @@ public class UsersCustomersUi extends VerticalLayout implements BeforeEnterObser
         String username = tokenService.getUsernameFromToken();
         userRepository.findByUserName(username).ifPresent(user1 -> add(ProfileStatusField.createStatusField(user1), menuBar, grid));
 
-        add(ProfileStatusField.createStatusField(null), menuBar, grid);
+
         // The Grid<>(Person.class) sorts the properties and in order to
         // reorder the properties we use the 'setColumns' method.
         grid.setColumns("id", "companyName", "orgNr", "firstName", "lastName", "address", "email", "phoneNr");

@@ -1,6 +1,8 @@
 package com.CashReportSystem.view.components;
 
+import com.CashReportSystem.model.CustomerProfile;
 import com.CashReportSystem.model.EmployeeProfile;
+import com.CashReportSystem.repository.CustomerProfileRepository;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -22,7 +24,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ProfileSettingsFormComponent {
-    public static Component createSettingsForm(EmployeeProfile employeeProfile, EmployeeProfileRepository employeeProfileRepository) {
+    public static Component createSettingsFormEmployee(EmployeeProfile employeeProfile, EmployeeProfileRepository employeeProfileRepository) {
         FormLayout layoutWithBinder = new FormLayout();
         Binder<EmployeeProfile> binder = new Binder<>();
 
@@ -114,5 +116,105 @@ public class ProfileSettingsFormComponent {
         verticalLayout.add(layoutWithBinder, save);
         return verticalLayout;
     }
+
+    public static Component createSettingsFormCustomer(CustomerProfile customerProfile, CustomerProfileRepository customerProfileRepository) {
+        FormLayout layoutWithBinder = new FormLayout();
+        Binder<CustomerProfile> binder = new Binder<>();
+
+        TextField adress = new TextField();
+        adress.setValue(customerProfile.getAddress());
+
+
+        TextField company = new TextField();
+        company.setValue(customerProfile.getCompanyName());
+
+
+        TextField firstName = new TextField();
+        firstName.setValue(customerProfile.getFirstName());
+        firstName.setValueChangeMode(ValueChangeMode.EAGER);
+
+        TextField lastName = new TextField();
+        lastName.setValue(customerProfile.getLastName());
+        lastName.setValueChangeMode(ValueChangeMode.EAGER);
+
+        TextField phone = new TextField();
+        phone.setValue(customerProfile.getPhoneNr());
+        phone.setValueChangeMode(ValueChangeMode.EAGER);
+
+        TextField email = new TextField();
+        email.setValue(customerProfile.getEmail());
+        email.setValueChangeMode(ValueChangeMode.EAGER);
+
+
+        TextField orgNr = new TextField();
+        orgNr.setValue(customerProfile.getOrgNr());
+        orgNr.setValueChangeMode(ValueChangeMode.EAGER);
+
+        Label infoLabel = new Label();
+
+        NativeButton save = new NativeButton("Save");
+
+        layoutWithBinder.addFormItem(adress, "adress");
+        layoutWithBinder.addFormItem(firstName, "First name");
+        layoutWithBinder.addFormItem(lastName, "Last name");
+        layoutWithBinder.addFormItem(email, "E-mail");
+        layoutWithBinder.addFormItem(company, "company");
+        layoutWithBinder.addFormItem(phone, "Phone");
+        layoutWithBinder.addFormItem(orgNr, "orgnr");
+
+        HorizontalLayout actions = new HorizontalLayout();
+        actions.add(save);
+        save.getStyle().set("marginRight", "10px");
+
+        SerializablePredicate<String> phoneOrEmailPredicate = value -> !phone
+                .getValue().trim().isEmpty()
+                || !email.getValue().trim().isEmpty();
+
+        Binding<CustomerProfile, String> emailBinding = binder.forField(email)
+                .withValidator(phoneOrEmailPredicate,
+                        "Both phone and email cannot be empty")
+                .withValidator(new EmailValidator("Incorrect email address"))
+                .bind(CustomerProfile::getEmail, CustomerProfile::setEmail);
+
+        Binding<CustomerProfile, String> phoneBinding = binder.forField(phone)
+                .withValidator(phoneOrEmailPredicate,
+                        "Both phone and email cannot be empty")
+                .bind(CustomerProfile::getPhoneNr, CustomerProfile::setPhoneNr);
+
+        email.addValueChangeListener(event -> phoneBinding.validate());
+        phone.addValueChangeListener(event -> emailBinding.validate());
+
+        firstName.setRequiredIndicatorVisible(true);
+        lastName.setRequiredIndicatorVisible(true);
+
+        binder.forField(firstName)
+                .withValidator(new StringLengthValidator(
+                        "Please add the first name", 1, null))
+                .bind(CustomerProfile::getFirstName, CustomerProfile::setFirstName);
+        binder.forField(lastName)
+                .withValidator(new StringLengthValidator(
+                        "Please add the last name", 1, null))
+                .bind(CustomerProfile::getLastName, CustomerProfile::setLastName);
+
+        save.addClickListener(event -> {
+            if (binder.writeBeanIfValid(customerProfile)) {
+                infoLabel.setText("Saved bean values: " + customerProfile);
+                customerProfileRepository.save(customerProfile);
+            } else {
+                BinderValidationStatus<CustomerProfile> validate = binder.validate();
+                String errorText = validate.getFieldValidationStatuses()
+                        .stream().filter(BindingValidationStatus::isError)
+                        .map(BindingValidationStatus::getMessage)
+                        .map(Optional::get).distinct()
+                        .collect(Collectors.joining(", "));
+                infoLabel.setText("There are errors: " + errorText);
+            }
+        });
+
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.add(layoutWithBinder, save);
+        return verticalLayout;
+    }
+
 
 }
