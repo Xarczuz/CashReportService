@@ -43,9 +43,9 @@ public class ReportService {
         tokenService.validateToken(jsonObject);
         tokenService.checkPermission(token, "admin", "employee");
 
-        JSONObject report = tokenAndReport.getJSONObject("report");
+        JSONObject reportJSONObject = tokenAndReport.getJSONObject("report");
         Report reportToBeSaved = new Report();
-        reportToBeSaved.setGameTableName(report.getString("tablename"));
+        updateReportWithData(reportJSONObject, reportToBeSaved);
         Report savedReport = reportRepository.save(reportToBeSaved);
 
         JSONObject responseObject = new JSONObject();
