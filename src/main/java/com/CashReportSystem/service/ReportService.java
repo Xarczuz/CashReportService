@@ -106,9 +106,6 @@ public class ReportService {
                 case "location":
                     reportToBeSaved.setLocation(reportJSONObject.getString("location"));
                     break;
-                case "reportnr":
-                    reportToBeSaved.setReportNr(reportJSONObject.getString("reportnr"));
-                    break;
                 case "employeesign":
                     reportToBeSaved.setEmployeeSign(reportJSONObject.getString("employeesign"));
                     break;

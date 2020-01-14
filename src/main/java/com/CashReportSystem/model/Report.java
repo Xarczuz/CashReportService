@@ -12,7 +12,6 @@ public class Report {
     private Long id;
     private String gameTableName;
     private String location;
-    private String reportNr;
     private String employeeSign;
     private String customerSign;
     private Double digitalCashFlow;
@@ -27,7 +26,6 @@ public class Report {
         reportJSONObject.put("id", id);
         reportJSONObject.put("tablename", gameTableName);
         reportJSONObject.put("location", location);
-        reportJSONObject.put("reportnr", reportNr);
         reportJSONObject.put("employeesign", employeeSign);
         reportJSONObject.put("customersign", customerSign);
         reportJSONObject.put("digitalcashflow", digitalCashFlow);
@@ -56,7 +54,6 @@ public class Report {
                 "id=" + id +
                 ", tableName='" + gameTableName + '\'' +
                 ", location='" + location + '\'' +
-                ", reportNr='" + reportNr + '\'' +
                 ", employeeSign='" + employeeSign + '\'' +
                 ", customerSign='" + customerSign + '\'' +
                 ", digitalCashFlow=" + digitalCashFlow +
@@ -83,14 +80,6 @@ public class Report {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getReportNr() {
-        return reportNr;
-    }
-
-    public void setReportNr(String reportNr) {
-        this.reportNr = reportNr;
     }
 
     public String getEmployeeSign() {
