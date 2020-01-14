@@ -1,8 +1,6 @@
 package com.CashReportSystem.view;
 
 import com.CashReportSystem.helper.ValidateClientHelper;
-import com.CashReportSystem.model.CustomerProfile;
-import com.CashReportSystem.model.EmployeeProfile;
 import com.CashReportSystem.model.User;
 import com.CashReportSystem.repository.CustomerProfileRepository;
 import com.CashReportSystem.repository.EmployeeProfileRepository;
@@ -25,66 +23,49 @@ public class ProfileSettingsUi extends VerticalLayout implements BeforeEnterObse
 
     private TokenService tokenService;
 
-
     public ProfileSettingsUi(EmployeeProfileRepository employeeProfileRepository, TokenService tokenService, MenuBarComponent menuBarComponent, UserRepository userRepository,
                              CustomerProfileRepository customerProfileRepository) {
         this.tokenService = tokenService;
 
-        EmployeeProfile employeeProfile;
-        CustomerProfile customerProfile;
-
-
         String username = tokenService.getUsernameFromToken();
-
 
         Optional<User> checkUser = userRepository.findByUserName(username);
 
-
-        System.out.println(checkUser);
         if (checkUser.isPresent()) {
             switch (checkUser.get().getPermission()) {
-
                 case "admin":
-                    employeeProfile = employeeProfileRepository.findById(checkUser.get().getId()).get();
-                    MenuBar adminMenuBar = menuBarComponent.createMenuBar();
-                    Component adminForm = ProfileSettingsFormComponent.createSettingsFormEmployee(employeeProfile, employeeProfileRepository);
-                    userRepository.findByUserName(username).ifPresent(user1 -> add(ProfileStatusField.createStatusField(user1), adminMenuBar, adminForm));
-                    break;
-
-
                 case "employee":
-                    employeeProfile = employeeProfileRepository.findById(checkUser.get().getId()).get();
-                    MenuBar employeeMenuBar = menuBarComponent.createMenuBar();
-                    Component employeeForm = ProfileSettingsFormComponent.createSettingsFormEmployee(employeeProfile, employeeProfileRepository);
-                    userRepository.findByUserName(username).ifPresent(user1 -> add(ProfileStatusField.createStatusField(user1), employeeMenuBar, employeeForm));
+                    employeeProfileRepository.findByUserId(checkUser.get().getId())
+                            .ifPresent(employeeProfile -> {
+                                MenuBar adminMenuBar = menuBarComponent.createMenuBar();
+                                Component adminForm = ProfileSettingsFormComponent.createSettingsFormEmployee(employeeProfile, employeeProfileRepository);
+                                userRepository.findByUserName(username).ifPresent(user1 -> add(ProfileStatusField.createStatusField(user1), adminMenuBar, adminForm));
+                            });
                     break;
 
                 case "customer":
-                    customerProfile = customerProfileRepository.findById(checkUser.get().getId()).get();
-                    MenuBar customerMenuBar = menuBarComponent.createMenuBar();
-                    Component customerForm = ProfileSettingsFormComponent.createSettingsFormCustomer(customerProfile, customerProfileRepository);
-                    userRepository.findByUserName(username).ifPresent(user1 -> add(ProfileStatusField.createStatusField(user1), customerMenuBar, customerForm));
+                    customerProfileRepository.findByUserId(checkUser.get().getId())
+                            .ifPresent(customerProfile -> {
+                                MenuBar customerMenuBar = menuBarComponent.createMenuBar();
+                                Component customerForm = ProfileSettingsFormComponent.createSettingsFormCustomer(customerProfile, customerProfileRepository);
+                                userRepository.findByUserName(username).ifPresent(user1 -> add(ProfileStatusField.createStatusField(user1), customerMenuBar, customerForm));
+                            });
                     break;
-
 
                 default:
                     System.out.println("Error");
                     break;
-
             }
         } else {
             getUI().ifPresent(ui -> ui.navigate("loginui"));
         }
     }
 
-
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
 
         ValidateClientHelper.validateCurrentUser(event, tokenService);
 
-
     }
-
 
 }
