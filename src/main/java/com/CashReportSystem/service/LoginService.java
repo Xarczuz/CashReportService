@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginService {
 
-    final TokenRepository tokenRepository;
-    final UserRepository userRepository;
-    final TokenHelper tokenHelper;
+    private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
+    private final TokenHelper tokenHelper;
 
     public LoginService(TokenRepository tokenRepository, UserRepository userRepository, TokenHelper tokenHelper) {
         this.tokenRepository = tokenRepository;
@@ -49,7 +49,7 @@ public class LoginService {
 
     private void saveToken(String token) {
         Token tokenToBeSaved = new Token(token);
-        if (!tokenRepository.findByToken(token).isPresent()) {
+        if (tokenRepository.findByToken(token).isEmpty()) {
             tokenRepository.save(tokenToBeSaved);
         }
     }

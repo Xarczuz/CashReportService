@@ -17,7 +17,7 @@ import javax.naming.NoPermissionException;
 @RequestMapping("user")
 public class UserController {
 
-    final UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;

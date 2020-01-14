@@ -35,9 +35,9 @@ public class LoginUi extends VerticalLayout implements BeforeEnterObserver {
     public void beforeEnter(BeforeEnterEvent event) {
         Cookie[] cookie = VaadinService.getCurrentRequest().getCookies();
         if (cookie != null) {
-            for (int i = 0; i < cookie.length; i++) {
-                if (cookie[i].getName().equals("token")) {
-                    String token = cookie[i].getValue();
+            for (Cookie value : cookie) {
+                if (value.getName().equals("token")) {
+                    String token = value.getValue();
                     try {
                         if (tokenService.validateTokenString(token)) {
                             event.rerouteTo(DashboardUi.class);

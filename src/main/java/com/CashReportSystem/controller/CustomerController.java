@@ -3,9 +3,7 @@ package com.CashReportSystem.controller;
 import com.CashReportSystem.exception.NoEmployeeException;
 import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.exception.NoSuchUserException;
-import com.CashReportSystem.repository.CustomerProfileRepository;
 import com.CashReportSystem.service.CustomerService;
-import com.CashReportSystem.service.TokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,13 +16,9 @@ import javax.naming.NoPermissionException;
 @RestController
 @RequestMapping(value = "customer")
 public class CustomerController {
-    final CustomerProfileRepository customerProfileRepository;
-    final TokenService tokenService;
-    final CustomerService customerService;
+    private final CustomerService customerService;
 
-    public CustomerController(CustomerProfileRepository customerProfileRepository, TokenService tokenService, CustomerService customerService) {
-        this.customerProfileRepository = customerProfileRepository;
-        this.tokenService = tokenService;
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 

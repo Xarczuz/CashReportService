@@ -16,8 +16,8 @@ import java.util.List;
 @Service
 public class ReportService {
 
-    final ReportRepository reportRepository;
-    final TokenService tokenService;
+    private final ReportRepository reportRepository;
+    private final TokenService tokenService;
 
     public ReportService(ReportRepository reportRepository, TokenService tokenService) {
         this.reportRepository = reportRepository;

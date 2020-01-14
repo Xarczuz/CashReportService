@@ -16,8 +16,8 @@ import java.util.List;
 @Service
 public class UserService {
 
-    final UserRepository userRepository;
-    final TokenService tokenService;
+    private final UserRepository userRepository;
+    private final TokenService tokenService;
 
     public UserService(UserRepository userRepository, TokenService tokenService) {
         this.userRepository = userRepository;

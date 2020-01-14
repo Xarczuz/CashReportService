@@ -17,8 +17,8 @@ import java.util.List;
 
 public class CustomerService {
 
-    final CustomerProfileRepository customerProfileRepository;
-    final TokenService tokenService;
+    private final CustomerProfileRepository customerProfileRepository;
+    private final TokenService tokenService;
 
     public CustomerService(CustomerProfileRepository customerProfileRepository, TokenService tokenService) {
         this.customerProfileRepository = customerProfileRepository;

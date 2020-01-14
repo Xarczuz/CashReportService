@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LogoutService {
 
-    final TokenRepository tokenRepository;
+    private final TokenRepository tokenRepository;
 
     public LogoutService(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;

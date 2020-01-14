@@ -31,7 +31,7 @@ public class TokenService {
         JSONObject tokenJson = new JSONObject(tokenJsonObject);
         String token = tokenJson.getString("token");
 
-        if (!tokenRepo.findByToken(token).isPresent()) {
+        if (tokenRepo.findByToken(token).isEmpty()) {
             throw new NoSuchTokenException("Token is not valid!");
         } else {
             return true;
@@ -39,7 +39,7 @@ public class TokenService {
     }
 
     public boolean validateTokenString(String token) throws NoSuchTokenException {
-        if (!tokenRepo.findByToken(token).isPresent()) {
+        if (tokenRepo.findByToken(token).isEmpty()) {
             throw new NoSuchTokenException("Token is not valid!");
         } else {
             return true;
@@ -60,11 +60,11 @@ public class TokenService {
         return responseObject.toString();
     }
 
-    public boolean checkPermission(String token, String... permissionToCheck) throws NoSuchUserException, NoPermissionException {
+    void checkPermission(String token, String... permissionToCheck) throws NoSuchUserException, NoPermissionException {
         String permission = getPermission(token);
         for (String p : permissionToCheck) { //userPermission=employee -> equals("admin", "employee")
             if (permission.equals(p)) {
-                return true;
+                return;
             }
         }
         throw new NoPermissionException("No such Permission!");
@@ -77,7 +77,7 @@ public class TokenService {
         return user.getPermission();
     }
 
-    public String parseToken(String value) {
+    private String parseToken(String value) {
         return tokenhelper.tokenDeCrypt(value);
     }
 

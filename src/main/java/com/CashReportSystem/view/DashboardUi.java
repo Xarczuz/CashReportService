@@ -15,14 +15,11 @@ import com.vaadin.flow.router.Route;
 public class DashboardUi extends VerticalLayout implements BeforeEnterObserver {
 
     private TokenService tokenService;
-    private UserRepository userRepository;
 
     public DashboardUi(TokenService tokenService, UserRepository userRepository, MenuBarComponent menuBarComponent) {
         this.tokenService = tokenService;
-        this.userRepository = userRepository;
 
         MenuBar menuBar = menuBarComponent.createMenuBar();
-
         String username = tokenService.getUsernameFromToken();
 
         userRepository.findByUserName(username).ifPresent(user1 -> add(ProfileStatusField.createStatusField(user1), menuBar));

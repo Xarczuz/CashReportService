@@ -19,7 +19,7 @@ public class PasswordHash {
         return new PassAndSalt(hashPassword(password, salt), salt);
     }
 
-    public static String generateSalt() {
+    private static String generateSalt() {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[SALT_LENGTH];
         random.nextBytes(salt);

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LogoutController {
 
-    final LogoutService logoutService;
+    private final LogoutService logoutService;
 
     public LogoutController(LogoutService logoutService) {
         this.logoutService = logoutService;

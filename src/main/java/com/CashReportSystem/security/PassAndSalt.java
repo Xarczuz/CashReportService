@@ -4,7 +4,7 @@ public class PassAndSalt {
     private String PASSWORD;
     private String SALT;
 
-    public PassAndSalt(String PASSWORD, String SALT) {
+    PassAndSalt(String PASSWORD, String SALT) {
         this.PASSWORD = PASSWORD;
         this.SALT = SALT;
     }

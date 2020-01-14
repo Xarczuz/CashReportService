@@ -3,7 +3,6 @@ package com.CashReportSystem.controller;
 import com.CashReportSystem.exception.NoEmployeeException;
 import com.CashReportSystem.exception.NoSuchTokenException;
 import com.CashReportSystem.exception.NoSuchUserException;
-import com.CashReportSystem.repository.EmployeeProfileRepository;
 import com.CashReportSystem.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +17,10 @@ import javax.naming.NoPermissionException;
 @RequestMapping(value = "employee")
 public class EmployeeController {
 
-    final EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-    final EmployeeProfileRepository employeeProfileRepository;
-
-    public EmployeeController(EmployeeService employeeService, EmployeeProfileRepository employeeProfileRepository) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-        this.employeeProfileRepository = employeeProfileRepository;
     }
 
     @PostMapping("employeelist")

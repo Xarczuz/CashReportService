@@ -16,8 +16,8 @@ import java.util.List;
 @Service
 public class EmployeeService {
 
-    final EmployeeProfileRepository employeeProfileRepository;
-    final TokenService tokenService;
+    private final EmployeeProfileRepository employeeProfileRepository;
+    private final TokenService tokenService;
 
     public EmployeeService(EmployeeProfileRepository employeeProfileRepository, TokenService tokenService) {
         this.employeeProfileRepository = employeeProfileRepository;

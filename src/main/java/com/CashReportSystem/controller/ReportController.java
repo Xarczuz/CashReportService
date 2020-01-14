@@ -17,7 +17,7 @@ import javax.naming.NoPermissionException;
 @RequestMapping(value = "report")
 public class ReportController {
 
-    final ReportService reportService;
+    private final ReportService reportService;
 
     public ReportController(ReportService reportService) {
         this.reportService = reportService;
