@@ -53,6 +53,7 @@ public class ProfileSettingsFormComponent {
         email.setValueChangeMode(ValueChangeMode.EAGER);
 
         Label infoLabel = new Label();
+        infoLabel.setText("");
 
         NativeButton save = new NativeButton("Save");
 
@@ -99,8 +100,8 @@ public class ProfileSettingsFormComponent {
 
         save.addClickListener(event -> {
             if (binder.writeBeanIfValid(employeeProfile)) {
-                infoLabel.setText("Saved bean values: " + employeeProfile);
                 employeeProfileRepository.save(employeeProfile);
+                infoLabel.setText("Saved");
             } else {
                 BinderValidationStatus<EmployeeProfile> validate = binder.validate();
                 String errorText = validate.getFieldValidationStatuses()
@@ -111,23 +112,23 @@ public class ProfileSettingsFormComponent {
                 infoLabel.setText("There are errors: " + errorText);
             }
         });
-
+//TODO BINDER
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.add(layoutWithBinder, save);
+        verticalLayout.add(layoutWithBinder, infoLabel, save);
         return verticalLayout;
     }
 
     public static Component createSettingsFormCustomer(CustomerProfile customerProfile, CustomerProfileRepository customerProfileRepository) {
         FormLayout layoutWithBinder = new FormLayout();
         Binder<CustomerProfile> binder = new Binder<>();
-
+//TODO BINDER
         TextField adress = new TextField();
         adress.setValue(customerProfile.getAddress());
-
+        adress.setValueChangeMode(ValueChangeMode.EAGER);
 
         TextField company = new TextField();
         company.setValue(customerProfile.getCompanyName());
-
+        company.setValueChangeMode(ValueChangeMode.EAGER);
 
         TextField firstName = new TextField();
         firstName.setValue(customerProfile.getFirstName());
@@ -145,12 +146,12 @@ public class ProfileSettingsFormComponent {
         email.setValue(customerProfile.getEmail());
         email.setValueChangeMode(ValueChangeMode.EAGER);
 
-
         TextField orgNr = new TextField();
         orgNr.setValue(customerProfile.getOrgNr());
         orgNr.setValueChangeMode(ValueChangeMode.EAGER);
 
         Label infoLabel = new Label();
+        infoLabel.setText("");
 
         NativeButton save = new NativeButton("Save");
 
@@ -198,8 +199,8 @@ public class ProfileSettingsFormComponent {
 
         save.addClickListener(event -> {
             if (binder.writeBeanIfValid(customerProfile)) {
-                infoLabel.setText("Saved bean values: " + customerProfile);
                 customerProfileRepository.save(customerProfile);
+                infoLabel.setText("Saved");
             } else {
                 BinderValidationStatus<CustomerProfile> validate = binder.validate();
                 String errorText = validate.getFieldValidationStatuses()
@@ -212,9 +213,9 @@ public class ProfileSettingsFormComponent {
         });
 
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.add(layoutWithBinder, save);
+
+        verticalLayout.add(layoutWithBinder, infoLabel, save);
         return verticalLayout;
     }
-
 
 }

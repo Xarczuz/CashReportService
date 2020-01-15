@@ -20,6 +20,7 @@ public class Report {
     private Double payment;
     private String infoField;
     private String status;
+    private CasinoTokens casinoTokens;
 
     public JSONObject toJsonObject() {
         JSONObject reportJSONObject = new JSONObject();
@@ -34,25 +35,20 @@ public class Report {
         reportJSONObject.put("payment", payment);
         reportJSONObject.put("infofield", infoField);
         reportJSONObject.put("status", status);
+        reportJSONObject.put("casinotokens", casinoTokens.toJsonObject());
+
         return reportJSONObject;
     }
 
     public Report() {
-    }
-
-    public String getGameTableName() {
-        return gameTableName;
-    }
-
-    public void setGameTableName(String gameTableName) {
-        this.gameTableName = gameTableName;
+        this.casinoTokens = new CasinoTokens();
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "Report{" +
                 "id=" + id +
-                ", tableName='" + gameTableName + '\'' +
+                ", gameTableName='" + gameTableName + '\'' +
                 ", location='" + location + '\'' +
                 ", employeeSign='" + employeeSign + '\'' +
                 ", customerSign='" + customerSign + '\'' +
@@ -62,13 +58,13 @@ public class Report {
                 ", payment=" + payment +
                 ", infoField='" + infoField + '\'' +
                 ", status='" + status + '\'' +
+                ", casinoTokens=" + casinoTokens +
                 '}';
     }
 
     public String getLocation() {
         return location;
     }
-    //UserId
 
     public void setLocation(String location) {
         this.location = location;
@@ -144,6 +140,22 @@ public class Report {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getGameTableName() {
+        return gameTableName;
+    }
+
+    public void setGameTableName(String gameTableName) {
+        this.gameTableName = gameTableName;
+    }
+
+    public CasinoTokens getCasinoTokens() {
+        return casinoTokens;
+    }
+
+    public void setCasinoTokens(CasinoTokens casinoTokensStart) {
+        this.casinoTokens = casinoTokensStart;
     }
 
 }

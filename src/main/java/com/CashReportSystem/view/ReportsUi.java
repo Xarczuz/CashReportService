@@ -51,6 +51,7 @@ public class ReportsUi extends VerticalLayout implements BeforeEnterObserver {
         // The Grid<>(Person.class) sorts the properties and in order to
         // reorder the properties we use the 'setColumns' method.
         grid.setColumns("id", "gameTableName", "location", "employeeSign", "customerSign", "cashFlow", "revenue", "infoField", "status");
+        grid.recalculateColumnWidths();
 
     }
 
@@ -67,19 +68,19 @@ public class ReportsUi extends VerticalLayout implements BeforeEnterObserver {
             Component reportForm = ReportFormComponent.createFormReport(report, reportRepository);
             add(reportForm);
 
-            //getUI().ifPresent(ui -> ui.navigate(ReportAddFormUi.class));
-
         });
         Button removeButton = new Button();
         removeButton.setText("Remove");
         removeButton.addClickListener(buttonClickEvent -> {
+                    grid.getSelectionModel().getFirstSelectedItem().ifPresent(report -> {
+                        reportRepository.deleteById(report.getId());
+                        grid.setItems(reportRepository.findAll());
+                    });
                 }
         );
         Button editButton = new Button();
         editButton.setText("Edit");
         editButton.addClickListener(buttonClickEvent -> {
-                    getUI().ifPresent(ui -> ui.navigate(ReportAddFormUi.class));
-
                 }
         );
 

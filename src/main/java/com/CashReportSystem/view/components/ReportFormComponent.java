@@ -1,9 +1,11 @@
 package com.CashReportSystem.view.components;
 
+import com.CashReportSystem.model.CasinoTokens;
 import com.CashReportSystem.model.Report;
 import com.CashReportSystem.repository.ReportRepository;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -28,12 +30,17 @@ public class ReportFormComponent {
         TextField customerSign = new TextField();
         //customerSign.setValue(report.getCustomerSign());
 
-
         layoutWithBinder.addFormItem(id, "Report nr");
         layoutWithBinder.addFormItem(cashFlow, "Cash Flow");
         layoutWithBinder.addFormItem(customerSign, "Customer Signature");
 
+        Grid<CasinoTokens> grid = new Grid<>(CasinoTokens.class);
+        grid.setItems(report.getCasinoTokens());
+        layoutWithBinder.addFormItem(grid, "Grid");
+
+
 /*        TextField employNr = new TextField();
+
         employNr.setValue(report.getEmployeeNr());
         employNr.setEnabled(false);
 

@@ -9,4 +9,4 @@ insert into user_profile_table(permission,username,password,salt) values ('emplo
 
 insert into employee_profile_table(user_id,employee_nr,role,first_name,last_name,phone_nr,email) values (4,'123','Dealer','Pelle','Svanslös','073-123456','nilsk@test.com');
 
-insert into report_table(id,game_table_name,location,employee_sign,customer_sign,digital_cash_flow,cash_flow,revenue,payment,info_field,status) values (1,'BlackJack','Stockholm','123','073-123456',1000.00,1000.00,700.00,1200.00,'Bra kväll','Avslutad');
+insert into report_table(id,game_table_name,location,employee_sign,customer_sign,digital_cash_flow,cash_flow,revenue,payment,info_field,status,END_CHANGE,END_FIFTIES,END_FIVES,END_HUNDREDS,END_SUM,END_TENS,END_TWENTIES,START_CHANGE,START_FIFTIES,START_FIVES,START_HUNDREDS,START_SUM,START_TENS,START_TWENTIES) values (1,'BlackJack','Stockholm','123','073-123456',1000.00,1000.00,700.00,1200.00,'Bra kväll','Avslutad',0,0,0,0,0,0,0,0,0,0,0,0,0,0);

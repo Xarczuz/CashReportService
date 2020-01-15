@@ -14,7 +14,7 @@ public class TokenHelper {
     public String tokenCryptBuilder(String subject) {
         return Jwts.builder().setIssuer("ACDP")
                 .setSubject(subject)
-                //.setExpiration(expirationDate)
+               // .setExpiration(Date.valueOf(LocalDateTime.now())) Need to add time TODO and catch error
                 .signWith(Secret, SignatureAlgorithm.HS256)
                 .compact();
     }
